@@ -1,0 +1,61 @@
+.aboutme{
+    width: 100%;
+}
+
+.aboutme__title-box{
+    max-width: 1140px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0 auto;
+}
+
+.aboutme__description{
+    width: 100%;
+    display: flex;
+    margin: 66px 0 0;
+}
+
+.aboutme__text-box{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0;
+}
+
+.aboutme__photo-box{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin: 0;
+}
+
+.aboutme-main__title_margin{
+    margin: 0;
+}
+
+.aboutme__about{
+    font-size: 18px;
+    font-weight: 500;
+    margin: 18px 0 0;
+}
+
+.aboutme__text{
+    max-width: 600px;
+    margin: 26px 0 0;
+}
+
+.aboutme__github{
+    text-decoration: none;
+    cursor: pointer;
+    color: white;
+    margin: auto auto 0 0;
+}
+
+.aboutme__img{
+    width: 270px;
+    height: 327px;
+    border-radius: 2%;
+    object-fit: cover;
+}

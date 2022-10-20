@@ -1,0 +1,41 @@
+.promo{
+    width: 1200px;
+    height: 493px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #272727;
+    border-radius: 1%;
+    font-size: 12px;
+    font-weight: 500;
+    margin: 0;
+}
+
+.promo-main__title_margin{
+    margin: 160px 0 0;
+    text-align: center;
+    max-width: 730px;
+    max-height: 116px;
+}
+
+.promo__buttons-area{
+    display: flex;
+    width: 308px;
+    height: 36px;
+    justify-content: space-between;
+    margin: 151px 0 0;
+}
+
+.promo__button{
+    width: 96px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    border-radius: 10%;
+    background-color: #303030;
+    cursor: pointer;
+    margin: 0 0 10px 0;
+}
