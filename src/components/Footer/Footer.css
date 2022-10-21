@@ -15,12 +15,12 @@
     height: 37px;
     text-align: center;
     color: #8B8B8B;
-    margin: 79px auto 20px auto;
+    margin: 59px auto 0px auto;
 }
 
 .footer__form{
     max-width: 1440px;
-    height: 56px;
+    height: 54px;
     border-top: 1px solid #424242;
     display: flex;
     align-items: center;

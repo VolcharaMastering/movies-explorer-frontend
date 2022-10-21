@@ -23,8 +23,8 @@ function AboutProject(props) {
                 <div className='about-project__term'>
                     <div className='about-project__cell about-project__cell_light'><p>1 неделя</p></div>
                     <div className='about-project__cell about-project__cell_dark'><p>4 недели</p></div>
-                    <div className='about-project__cell'><p>Back-end</p></div>
-                    <div className='about-project__cell'><p>Front-end</p></div>
+                    <div className='about-project__cell'><p className='about-project__cell-text'>Back-end</p></div>
+                    <div className='about-project__cell'><p className='about-project__cell-text'>Front-end</p></div>
                 </div>
             </div>
         </section>

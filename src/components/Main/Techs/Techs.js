@@ -5,7 +5,7 @@ function Techs(props) {
     return (
         <section className='techs'>
             <div className='techs__title-box'>
-                <h2 className='main__subtitle'>Технологии</h2>
+                <h2 className='main__subtitle techs-main__subtitle_margin'>Технологии</h2>
                     <h1 className='main__title techs-main__title_margin'>7 технологий</h1>
                     <p className='techs__text'>
                         На курсе веб-разработки мы освоили технологии,
