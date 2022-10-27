@@ -4,7 +4,7 @@ import '../Main.css';
 
 function portfolio(props) {
     return (
-        <section className='portfolio'>
+        <>
             <div className='portfolio__title-box'>
                 <h2 className='portfolio__portfolio'>Портфолио</h2>
                 <div className='portfolio__links'>
@@ -43,7 +43,7 @@ function portfolio(props) {
                     </div>
                 </div>
             </div>
-        </section>
+        </>
     );
 
 };

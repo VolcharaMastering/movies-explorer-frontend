@@ -1,24 +1,46 @@
-.techs{
+.techs {
     width: 100%;
     background-color: #272727;
 }
 
-.techs__title-box{
+.techs__title-box {
     max-width: 1140px;
+    height: 625px;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 0 auto;
 }
-.techs-main__subtitle_margin{
-    margin: 103px 0 0;
+
+@media screen and (max-width: 1150px) {
+    .techs__title-box {
+        height: 567px;
+        margin: 0 50px;
+    }
 }
 
-.techs-main__title_margin{
+.techs-main__subtitle_margin {
+    margin: 81px 0 0;
+}
+
+@media screen and (max-width: 1000px) {
+    .techs-main__subtitle_margin {
+        margin: 71px 0 0;
+    }
+}
+
+.techs-main__title_margin {
     margin: 93px 0 0;
 }
 
-.techs__text{
+@media screen and (max-width: 1000px) {
+    .techs-main__title_margin {
+        font-size: 46px;
+        margin-top: 84px;
+    }
+}
+
+.techs__text {
     max-width: 465px;
     font-size: 13px;
     line-height: 1.5;
@@ -26,7 +48,17 @@
     text-align: center;
 }
 
-.techs__buttons{
+@media screen and (max-width: 900px) {
+    .techs__text {
+        max-width: 421px;
+        font-size: 11px;
+        line-height: 1.5;
+        letter-spacing: 0.06px;
+        margin: 26px auto 0;
+    }
+}
+
+.techs__buttons {
     display: flex;
     width: 690px;
     height: 60px;
@@ -34,7 +66,14 @@
     margin: 100px 0 100px 0;
 }
 
-.techs__button{
+@media screen and (max-width: 900px) {
+    .techs__buttons {
+        width: 649px;
+        margin-top: 85px;
+    }
+}
+
+.techs__button {
     width: 90px;
     height: 60px;
     display: flex;
@@ -45,4 +84,11 @@
     background-color: #303030;
     cursor: pointer;
     margin: 0;
+}
+
+@media screen and (max-width: 900px) {
+    .techs__button {
+        width: 85px;
+        height: 57px;
+    }
 }

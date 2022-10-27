@@ -9,11 +9,23 @@
     font-weight: 400;
 }
 
+@media screen and (max-width: 1000px){
+    .main__title{
+        font-size: 42px;
+    }
+}
+
+@media screen and (max-width: 800px){
+    .main__title{
+        font-size: 38px;
+    }
+}
+
 .main__subtitle{
     font-size: 21px;
     font-weight: 400;
     width: 100%;
-    height: 47px;
+    line-height: 68px;
     border-bottom: 1px solid #DADADA;
-    margin: 113px 0 0;
+    margin: 92px 0 0;
 }

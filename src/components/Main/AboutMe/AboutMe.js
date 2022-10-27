@@ -6,9 +6,9 @@ import avatar from '../../../images/avatar.jpg';
 
 function AboutMe(props) {
     return (
-        <section className='aboutme'>
+        <>
             <div className='aboutme__title-box'>
-                <h2 className='main__subtitle'>Студент</h2>
+                <h2 className='main__subtitle aboutme-main__subtitle_margin'>Студент</h2>
                 <div className='aboutme__description'>
                     <div className='aboutme__text-box'>
                         <h1 className='main__title aboutme-main__title_margin'>Алексей</h1>
@@ -34,7 +34,7 @@ function AboutMe(props) {
                     </div>
                 </div>
             </div>
-        </section>
+        </>
     );
 
 };

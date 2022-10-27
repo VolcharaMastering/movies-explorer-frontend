@@ -10,11 +10,23 @@
     margin: 0 auto;
 }
 
+@media screen and (max-width: 1150px) {
+    .portfolio__title-box {
+        margin: 0 50px;
+    }
+}
+
 .portfolio__portfolio{
     color: #8B8B8B;
     font-size: 18px;
     font-weight: 400;
     margin: 101px 0 0;
+}
+
+@media screen and (max-width: 1000px) {
+    .portfolio__portfolio {
+        margin-top: 91px;
+    }
 }
 
 .portfolio__links{
@@ -34,6 +46,13 @@
     font-size: 28px;
     font-weight: 400;
     margin: 0;
+}
+
+@media screen and (max-width: 1000px) {
+    .portfolio__link-box{
+        font-size: 26px;
+        border-bottom: 1px solid #E6E6E6;
+    }
 }
 
 .portfolio__link-box:last-of-type{

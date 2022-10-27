@@ -3,9 +3,9 @@ import '../Main.css';
 
 function AboutProject(props) {
     return (
-        <section className='about-project'>
+        <>
             <div className='about-project__title-box'>
-                <h2 className='main__subtitle'>О проекте</h2>
+                <h2 className='main__subtitle main__subtitle_margin'>О проекте</h2>
                 <div className='about-project__describe'>
                     <h3 className='about-project__title'>Дипломный проект включал 5 этапов</h3>
                     <h3 className='about-project__title'>На выполнение диплома ушло 5 недель</h3>
@@ -27,7 +27,7 @@ function AboutProject(props) {
                     <div className='about-project__cell'><p className='about-project__cell-text'>Front-end</p></div>
                 </div>
             </div>
-        </section>
+        </>
     );
 
 };
