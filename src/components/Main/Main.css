@@ -21,6 +21,18 @@
     }
 }
 
+@media screen and (max-width: 650px){
+    .main__title{
+        font-size: 33px;
+    }
+}
+
+@media screen and (max-width: 400px){
+    .main__title{
+        font-size: 27px;
+    }
+}
+
 .main__subtitle{
     font-size: 21px;
     font-weight: 400;

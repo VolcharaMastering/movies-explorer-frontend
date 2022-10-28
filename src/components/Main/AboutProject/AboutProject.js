@@ -8,8 +8,8 @@ function AboutProject(props) {
                 <h2 className='main__subtitle main__subtitle_margin'>О проекте</h2>
                 <div className='about-project__describe'>
                     <h3 className='about-project__title'>Дипломный проект включал 5 этапов</h3>
-                    <h3 className='about-project__title'>На выполнение диплома ушло 5 недель</h3>
-                    <p className='about-project__text'>
+                    <h3 className='about-project__title about-project__title_cell'>На выполнение диплома ушло 5 недель</h3>
+                    <p className='about-project__text about-project__text_cell'>
                         Составление плана, работу над бэкендом,
                         вёрстку, добавление функциональности
                         и финальные доработки.
