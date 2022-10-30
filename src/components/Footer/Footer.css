@@ -83,8 +83,15 @@
 .footer__link{
     text-decoration: none;
     color: white;
+    transition: opacity 0.5s linear;
     margin: 0;
 }
+.footer__link:hover{
+    opacity: 60%;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
 .footer__link:last-of-type{
     margin-left: 20px;
 }

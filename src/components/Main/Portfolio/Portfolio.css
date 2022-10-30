@@ -89,15 +89,25 @@
 .portfolio__link {
     text-decoration: none;
     color: white;
-    cursor: pointer;
+    transition: opacity 0.5s linear;
     margin: 0;
+}
+
+.portfolio__link:hover {
+    opacity: 60%;
+    cursor: pointer;
 }
 
 .portfolio__link-arrow {
     text-decoration: none;
     color: white;
-    cursor: pointer;
+    transition: opacity 0.5s linear;
     margin: 11px 0 0;
+}
+
+.portfolio__link-arrow:hover {
+    opacity: 60%;
+    cursor: pointer;
 }
 
 @media screen and (max-width: 600px) {

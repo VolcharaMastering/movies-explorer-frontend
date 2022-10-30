@@ -1,49 +1,36 @@
 import React from "react";
 
-import Promo from "./Promo/Promo.js";
-import AboutProject from "./AboutProject/AboutProject.js";
-import Techs from "./Techs/Techs.js";
-import Portfolio from "./Portfolio/Portfolio.js";
-import AboutMe from "./AboutMe/AboutMe.js";
+import SearchForm from "./SearchForm/SearchForm.js";
+import Preloader from "../Preloader/Preloader.js";
+import MoviesCardList from "../MoviesCardList/MoviesCardList";
+import MoviesCard from "../MoviesCard/MoviesCard";
 
-function Main(props) {
-    const projectRef = React.useRef(null);
-    const techsRef = React.useRef(null);
-    const aboutMeRef = React.useRef(null);
+function Movies(props) {
+    const [searchFilm, findSearchFilm] = React.useState('');
 
-    const focusOnRef = (selectedRef) => {
-        window.scrollTo(
-            {
-                top: selectedRef.current.offsetTop,
-                behavior: "smooth",
-            },
-        )
+    const findFilm = (e) => {
+        findSearchFilm(e.target.value);
     }
-
     return (
-        <main className="main">
-            <section className="promo">
-                <Promo
-                    focusOnRef={focusOnRef}
-                    projectRef={projectRef}
-                    techsRef={techsRef}
-                    aboutMeRef={aboutMeRef}
+        <main className="movies">
+            <section className="search-form">
+                <SearchForm
+                    findFilm={findFilm}
                 />
             </section>
-            <section ref={projectRef} className="about-project">
-                <AboutProject />
+            <section className="preloader">
+                <Preloader />
             </section>
-            <section ref={techsRef} className="techs">
-                <Techs />
+            <section className="movies-list">
+                <MoviesCardList
+                    searchFilm={searchFilm}
+                />
             </section>
-            <section ref={aboutMeRef} className="about-me">
-                <AboutMe />
-            </section>
-            <section className="portfolio">
-                <Portfolio />
+            <section className="movies-card">
+                <MoviesCard />
             </section>
         </main >
     );
 }
 
-export default Main;
+export default Movies;

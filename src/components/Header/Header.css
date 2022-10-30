@@ -9,21 +9,26 @@
     margin: 0;
 }
 
-.header__logo{
+.header__logo {
     background-image: url(../../images/logo.svg);
     width: 38px;
     height: 38px;
-    cursor: pointer;
+    transition: opacity 0.5s linear;
     margin-left: 70px;
 }
 
-@media screen and (max-width: 1200px){
-    .header__logo{
+.header__logo:hover {
+    opacity: 60%;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 1200px) {
+    .header__logo {
         margin-left: 4%;
     }
 }
 
-.header__no-links{
+.header__no-links {
     margin: 0;
 }
 
@@ -37,14 +42,14 @@
     margin-right: 70px;
 }
 
-@media screen and (max-width: 1200px){
-    .header__user-form{
+@media screen and (max-width: 1200px) {
+    .header__user-form {
         margin-right: 4%;
     }
 }
 
-@media screen and (max-width: 450px){
-    .header__user-form{
+@media screen and (max-width: 450px) {
+    .header__user-form {
         font-size: 10px;
         width: 133px;
     }
@@ -71,35 +76,46 @@
     margin-right: 70px;
 }
 
-@media screen and (max-width: 1200px){
-    .header__user-buttons{
+@media screen and (max-width: 1200px) {
+    .header__user-buttons {
         margin-right: 4%;
     }
 }
 
-@media screen and (max-width: 450px){
-    .header__user-buttons{
+@media screen and (max-width: 450px) {
+    .header__user-buttons {
         font-size: 10px;
         width: 133px;
     }
 }
 
-.header__link{
-    cursor: pointer;
+.header__link {
+    transition: opacity 0.5s linear;
     text-decoration: none;
     color: white;
     margin: 0;
 }
 
-.header__img-link{
+.header__link:hover {
+    opacity: 60%;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.header__img-link {
     background-image: url(../../images/userIcon.svg);
     width: 26px;
     height: 30px;
-    cursor: pointer;
+    transition: opacity 0.5s linear;
     margin: 0;
 }
 
-.header__button{
+.header__img-link:hover {
+    opacity: 60%;
+    cursor: pointer;
+}
+
+.header__button {
     width: 76px;
     height: 32px;
     color: black;
@@ -107,17 +123,28 @@
     align-items: center;
     justify-content: center;
     border-radius: 5%;
-    cursor: pointer;
+    transition: opacity 0.5s linear;
     background-color: #3DDC84;
 }
 
-@media screen and (max-width: 450px){
-    .header__button{
+.header__button:hover {
+    opacity: 60%;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 450px) {
+    .header__button {
         width: 54px;
         height: 26px;
     }
 }
 
-.header__signup{
+.header__signup {
+    transition: opacity 0.5s linear;
+}
+
+.header__signup:hover {
+    opacity: 60%;
     cursor: pointer;
+    text-decoration: underline;
 }

@@ -128,8 +128,13 @@
     list-style: none;
     border-radius: 10%;
     background-color: #303030;
-    cursor: pointer;
+    transition: opacity 0.5s linear;
     margin: 0;
+}
+
+.techs__button:hover {
+    opacity: 60%;
+    cursor: pointer;
 }
 
 @media screen and (max-width: 900px) {
