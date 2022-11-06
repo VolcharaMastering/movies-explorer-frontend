@@ -56,9 +56,9 @@
     opacity: 1;
 }
 .movies-card__save-position:hover {
-    
     visibility: visible;
     opacity: 0.6;
+    cursor: pointer;
 }
 
 

@@ -1,11 +1,11 @@
 .search-slider{
     display: flex;
     width: 167px;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     font-size: 13px;
     font-weight: 400;
-    margin: 26px 0 0;
+    margin: 15px 0 0;
 }
 
 .search-slider__checkbox {
@@ -47,4 +47,8 @@
   
   .search-slider__label:active .search-slider__button {
     width: 20px;
+  }
+
+  .search-slider__text{
+    margin-left: 14px;
   }
