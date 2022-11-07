@@ -23,12 +23,12 @@ function Movies(props) {
     const checkWindowSize = () => {
         //-----making constants depending on window width-------- 
         switch (true) {
-            case (window.innerWidth <= 620):
+            case (window.innerWidth <= 649):
                 setChangedWidth('mobile');
                 setAddMovies(3)
                 setMoviesPerPage(5);
                 break;
-            case (window.innerWidth <= 960):
+            case (window.innerWidth <= 959):
                 setChangedWidth('tablet');
                 setAddMovies(4);
                 setMoviesPerPage(8);

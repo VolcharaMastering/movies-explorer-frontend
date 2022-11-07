@@ -8,6 +8,13 @@
     margin: 15px 0 0;
 }
 
+@media screen and (max-width: 649px) {
+  .search-slider{
+      margin-top: 22px;
+      font-size: 11px;
+  }
+} 
+
 .search-slider__checkbox {
     height: 0;
     width: 0;
