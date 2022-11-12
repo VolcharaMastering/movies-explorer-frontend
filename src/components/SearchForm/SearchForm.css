@@ -45,8 +45,11 @@
     color: white;
     border-radius: 10px;
     padding-left: 23px;
+    transition: border 0.3s linear;
 }
-
+.search-form__input:hover{
+border: 1.5px solid #FFF;
+}
 @media screen and (max-width: 649px) {
     .search-form__input{
         height: 51px;

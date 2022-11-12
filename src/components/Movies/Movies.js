@@ -8,74 +8,52 @@ import movies from "./moviesList.json";
 
 
 function Movies(props) {
-    const [searchFilm, findSearchFilm] = React.useState('');
-    const [addMovies, setAddMovies] = React.useState(Number);
-    const [moviesPerPage, setMoviesPerPage] = React.useState(Number);
-    const [chengedWidth, setChangedWidth] = React.useState('');
     const [moviesToShow, setMoviesToShow] = React.useState([]);
+    const [findMovie, setFindMovie] = React.useState('');
+    const [onSlider, setOnSlider] = React.useState(false);
+    const [filteredMovies, setFilteredMovies] = React.useState([]);
 
-
-    //----here is checking window resizing------
-    useEffect(() => {
-        window.addEventListener("resize", checkWindowSize);
-    });
-
-    const checkWindowSize = () => {
-        //-----making constants depending on window width-------- 
-        switch (true) {
-            case (window.innerWidth <= 649):
-                setChangedWidth('mobile');
-                setAddMovies(3)
-                setMoviesPerPage(5);
-                break;
-            case (window.innerWidth <= 959):
-                setChangedWidth('tablet');
-                setAddMovies(4);
-                setMoviesPerPage(8);
-                break;
-            default:
-                setChangedWidth('monitor');
-                setAddMovies(6);
-                setMoviesPerPage(12);
-        }
-    };
     React.useEffect(() => {
-        console.log("changed add=", addMovies, "all=", moviesPerPage);
         setMoviesToShow([]);
-        loopWithSlice(0, moviesPerPage);
-    }, [chengedWidth]);
+        loopWithSlice(0, props.moviesPerPage);
+    }, [props.changedWidth,onSlider,props.moviesPerPage]);
     //----------------
     //=======creating an array of movies=======
-    const loopWithSlice = (start, end) => {
+    function loopWithSlice (start, end){
         const slicedMovies = movies.slice(start, end);
-        setMoviesToShow(previosMovies => [...previosMovies, ...slicedMovies]);
-        console.log(moviesToShow);
-        
+        console.log(onSlider);
+        if(!onSlider){
+            setFilteredMovies(slicedMovies);
+        }else{
+            setFilteredMovies(slicedMovies.filter(film => film.duration <= 120));
+        }
+        setMoviesToShow(previosMovies => [...previosMovies, ...filteredMovies]);
     };
 
+    const savedMovie = (gotMovie) => {
+        const film=movies.find(movie=>movie._id = gotMovie._id)
+            film.saved = !film.saved;
+    }
 
     const handleShowMoreMovies = () => {
-        loopWithSlice(moviesPerPage, moviesPerPage + addMovies);
-        setMoviesPerPage(moviesPerPage + addMovies);
+        loopWithSlice(props.moviesPerPage, props.moviesPerPage + props.addMovies);
+        props.setMoviesPerPage(props.moviesPerPage + props.addMovies);
     };
 
-    useEffect(() => {
-        checkWindowSize();
-        loopWithSlice(0, moviesPerPage);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
     //=========================
     const handleFindFilm = (e) => {
         e.preventDefault();
-        findSearchFilm(e.target.value);
+        setFindMovie(e.target.value);
     }
-
+    const handleToggleSlider = () => {
+        setOnSlider(!onSlider);
+    }
     return (
         <main className="movies">
             <section className="search-form">
                 <SearchForm
                     handleFindFilm={handleFindFilm}
-                    onClick={handleShowMoreMovies}
+                    toggleSlider={handleToggleSlider}
                 />
             </section>
             {/* <section className="preloader">
@@ -83,13 +61,14 @@ function Movies(props) {
             </section> */}
             <section className="movies-list">
                 <MoviesCardList
-                    searchFilm={searchFilm}
+                    findMovie={findMovie}
                     moviesToRender={moviesToShow}
                     moreMovies={handleShowMoreMovies}
+                    savedMovie={savedMovie}
                 />
             </section>
         </main >
-    ); 
+    );
 }
 
 export default Movies;
