@@ -1,19 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import './SearchForm.css';
 import '../Movies/Movies.js';
 import Slider from './Slider/Slider.js';
 
 
-function Techs(props) {
-    const [findFilm, setFindFilm] = React.useState('');
-    const [onSlider, setOnSlider] = React.useState(false);
+function SearchForm(props) {
 
     const handleSubmitForm = (e) => {
         e.preventDefault();
-        props.handleFindFilm(findFilm);
-    }
-    const handleChange = (e) => {
-        setFindFilm(e.target.value);
+        props.handleFindFilm(e);
     }
 
     return (
@@ -26,24 +22,23 @@ function Techs(props) {
                         placeholder="Фильм"
                         id="search-form"
                         name="search"
-                        onChange={handleChange}
+                        onChange={props.searchMovie}
                         required
-                        minLength="2"
                         maxLength="400"
                     />
                     <button
                         className="search-form__button"
-                        type="submit"
+                        type="button"
                         aria-label='search'
-                        onSubmit={handleSubmitForm}
+                        onClick={handleSubmitForm}
                     >
                         Поиск
                     </button>
                 </div>
                 <Slider
-                    isOn={onSlider}
+                    isOn={props.onSlider}
+                    handleToggle={props.toggleSlider}
                     onColor="#3DDC84"
-                    handleToggle={() => setOnSlider(!onSlider)}
                 />
             </form>
         </>
@@ -51,4 +46,4 @@ function Techs(props) {
 
 };
 
-export default Techs;
+export default SearchForm;

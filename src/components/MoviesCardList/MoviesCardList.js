@@ -12,7 +12,7 @@ function MoviesCardList(props) {
                         <MoviesCard
                             key={movie._id}
                             movie={movie}
-                            savedMovie={props.savedMovie}
+                            // savedMovie={props.savedMovie}
                         />
                     ))}
                 </section>

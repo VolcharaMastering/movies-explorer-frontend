@@ -1,3 +1,4 @@
+
 import React, { useEffect } from "react";
 
 import './Movies.css'
@@ -9,50 +10,94 @@ import movies from "./moviesList.json";
 
 function Movies(props) {
     const [moviesToShow, setMoviesToShow] = React.useState([]);
-    const [findMovie, setFindMovie] = React.useState('');
-    const [onSlider, setOnSlider] = React.useState(false);
     const [filteredMovies, setFilteredMovies] = React.useState([]);
+    const [searchMovie, setSearchMovie] = React.useState('');
+    const [onSlider, setOnSlider] = React.useState(false);
+    let handleFlag = false;
 
-    React.useEffect(() => {
-        setMoviesToShow([]);
-        loopWithSlice(0, props.moviesPerPage);
-    }, [props.changedWidth,onSlider,props.moviesPerPage]);
-    //----------------
     //=======creating an array of movies=======
-    function loopWithSlice (start, end){
-        const slicedMovies = movies.slice(start, end);
-        console.log(onSlider);
-        if(!onSlider){
-            setFilteredMovies(slicedMovies);
-        }else{
-            setFilteredMovies(slicedMovies.filter(film => film.duration <= 120));
-        }
-        setMoviesToShow(previosMovies => [...previosMovies, ...filteredMovies]);
+
+    function loopWithSlice(start, end) {
+        const slicedMovies = (handleFlag ? filteredMovies.slice(start, end) : movies.slice(start, end));
+        console.log(slicedMovies, handleFlag)
+        setMoviesToShow(previosMovies => [...previosMovies, ...slicedMovies]);
+        updateFlag();
     };
 
-    const savedMovie = (gotMovie) => {
-        const film=movies.find(movie=>movie._id = gotMovie._id)
-            film.saved = !film.saved;
+    const updateFlag = () => {
+        handleFlag = false;
+
     }
+    const findInAll = () => {
+        const filmsFound = movies.filter(film =>
+            film.nameRU.toLowerCase().includes(searchMovie.toLowerCase()) ||
+            film.nameEN.toLowerCase().includes(searchMovie.toLowerCase()) ||
+            film.description.toLowerCase().includes(searchMovie.toLowerCase())
+        );
+        return filmsFound;
+    }
+    const findInShort = () => {
+        const filmsFound = movies.filter(film =>
+            (film.nameRU.toLowerCase().includes(searchMovie.toLowerCase()) ||
+                film.nameEN.toLowerCase().includes(searchMovie.toLowerCase()) ||
+                film.description.toLowerCase().includes(searchMovie.toLowerCase())) &&
+            film.duration <= 120
+        );
+        return filmsFound;
+    }
+    const getShort = () => {
+        setFilteredMovies(movies.filter(film => film.duration <= 120));
+    }
+
+    useEffect(() => {
+        setMoviesToShow([]);
+        switch (true) {
+            case (onSlider && searchMovie.length > 0):
+                handleFlag = true;
+                setFilteredMovies(findInShort());
+                break;
+            case (onSlider && searchMovie.length === 0):
+                handleFlag = true;
+                getShort();
+                break;
+            case (!onSlider && searchMovie.length > 0):
+                handleFlag = true;
+                setFilteredMovies(findInAll());
+                break;
+            default:
+                console.log('DEFAULT');
+        }
+        loopWithSlice(0, props.moviesPerPage);
+    }, [props.changedWidth, onSlider, searchMovie]);
+
+    // const savedMovie = (gotMovie) => {
+    //     const film = movies.find(movie => movie._id = gotMovie._id)
+    //     film.saved = !film.saved;
+    // }
 
     const handleShowMoreMovies = () => {
         loopWithSlice(props.moviesPerPage, props.moviesPerPage + props.addMovies);
         props.setMoviesPerPage(props.moviesPerPage + props.addMovies);
     };
-
+    //----------------
     //=========================
     const handleFindFilm = (e) => {
         e.preventDefault();
-        setFindMovie(e.target.value);
-    }
+        getSearchString(e);
+    };
     const handleToggleSlider = () => {
         setOnSlider(!onSlider);
+    };
+    const getSearchString = (e) => {
+        setSearchMovie(e.target.value);
     }
     return (
         <main className="movies">
             <section className="search-form">
                 <SearchForm
+                    searchMovie={getSearchString}
                     handleFindFilm={handleFindFilm}
+                    onSlider={onSlider}
                     toggleSlider={handleToggleSlider}
                 />
             </section>
@@ -61,10 +106,8 @@ function Movies(props) {
             </section> */}
             <section className="movies-list">
                 <MoviesCardList
-                    findMovie={findMovie}
                     moviesToRender={moviesToShow}
                     moreMovies={handleShowMoreMovies}
-                    savedMovie={savedMovie}
                 />
             </section>
         </main >

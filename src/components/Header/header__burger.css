@@ -10,6 +10,12 @@
   z-index: 3;
 }
 
+@media screen and (max-width: 450px) {
+  .header__burger-box {
+    margin-right: 9px;
+  }
+}
+
 .header__burger-box:hover {
   opacity: 60%;
   cursor: pointer;
@@ -24,6 +30,12 @@
   background-color: #fff;
 }
 
+@media screen and (max-width: 450px) {
+  .header__burger {
+    width: 21px;
+  }
+}
+
 .header__burger::after,
 .header__burger::before {
   content: "";
@@ -31,29 +43,58 @@
   position: absolute;
   width: 28px;
   height: 3px;
-  transition: all 0.3s ease;
+  transition: all 0.5s ease;
+}
+
+@media screen and (max-width: 450px) {
+
+  .header__burger::after,
+  .header__burger::before {
+    width: 21px;
+  }
 }
 
 .header__burger::before {
-  top: 8px
+  top: 10px
 }
 
 .header__burger::after {
-  bottom: 8px;
+  bottom: 10px;
 }
 
 .header__burger.active-burger {
   visibility: hidden;
+  left: 26px;
+}
+
+@media screen and (max-width: 450px) {
+  .header__burger.active-burger {
+    left: 34px;
+  }
 }
 
 .header__burger.active-burger::before {
   transform: rotate(45deg);
-  top: 14.5px;
+  top: 0;
   visibility: visible;
+  width: 22px;
+}
+
+@media screen and (max-width: 450px) {
+  .header__burger.active-burger::before {
+    top: -9px;
+  }
 }
 
 .header__burger.active-burger::after {
   transform: rotate(-45deg);
-  top: 14.5px;
+  top: 0;
   visibility: visible;
+  width: 22px;
+}
+
+@media screen and (max-width: 450px) {
+  .header__burger.active-burger::after {
+    top: -9px;
+  }
 }

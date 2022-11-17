@@ -78,6 +78,13 @@
     margin: 0;
     content: '';
 }
+.movies-card__unsave{
+    background-image: url(../../images/unsave.svg);
+    width: 21px;
+    height: 21px;
+    margin: 0;
+    content: '';
+}
 
 .movies-card__image:hover + .movies-card__save-position{
     visibility: visible;

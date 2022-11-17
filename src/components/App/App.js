@@ -6,8 +6,8 @@ import { Route, Switch } from 'react-router-dom';
 import Header from "../Header/Header.js";
 import Main from "../Main/Main.js";
 import Footer from "../Footer/Footer.js"
-import Movies from '../Movies/Movies';
-
+import Movies from '../Movies/Movies.js';
+import SavedMovies from '../SavedMovies/SavedMovies.js';
 
 function App() {
     const [changedWidth, setChangedWidth] = useState('');
@@ -68,10 +68,15 @@ function App() {
                             addMovies={addMovies}
                         />
                     </Route>
-                    {/*    <Route path='/saved-movies'>
-
-                </Route>
-                <Route path='/profile'>
+                    <Route path='/saved-movies'>
+                        <SavedMovies
+                        changedWidth={changedWidth}
+                        moviesPerPage={moviesPerPage}
+                        setMoviesPerPage={setMoviesPerPage}
+                        addMovies={addMovies}
+                        />
+                    </Route>
+                    {/* <Route path='/profile'>
 
                 </Route> */}
 

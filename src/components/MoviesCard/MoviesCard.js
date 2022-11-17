@@ -2,9 +2,10 @@ import React from "react";
 import './MoviesCard.css'
 
 function MoviesCard(props) {
-const handleToggleMovie=()=>{
-    props.savedMovie(props.movie);
-}
+// const handleToggleMovie=()=>{
+//     props.savedMovie(props.movie);
+// }
+const pathname=window.location.pathname;
     return (
         <article className="movies-card">
             <div className="movies-card__image-box">
@@ -13,11 +14,18 @@ const handleToggleMovie=()=>{
                     src={props.movie.image}
                     alt={`Постер к фильму: ${props.movie.nameRU}`}
                 />
-                <div className={`${props.movie.saved ? 'movies-card__saved-position' : 'movies-card__save-position'}`}>
+                <div className={
+                    `${(props.movie.saved && pathname!=='/saved-movies') ? 
+                    'movies-card__saved-position' : 'movies-card__save-position'}`
+                    }>
                     <div
-                        className={`${props.movie.saved ? 'movies-card__saved' : 'movies-card__save'}`}
+                        className={
+                            pathname!=='/saved-movies' ?
+                            (`${props.movie.saved ? 'movies-card__saved' : 'movies-card__save'}`) :
+                            'movies-card__unsave'
+                        }
                         type="button"
-                        onClick={handleToggleMovie}
+                        // onClick={handleToggleMovie}
                         aria-label="Сохранить"
                     >
                         {`${props.movie.saved ? '' : 'Сохранить'}`}
