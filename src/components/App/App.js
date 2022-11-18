@@ -8,6 +8,7 @@ import Main from "../Main/Main.js";
 import Footer from "../Footer/Footer.js"
 import Movies from '../Movies/Movies.js';
 import SavedMovies from '../SavedMovies/SavedMovies.js';
+import Profile from '../Profile/Profile';
 
 function App() {
     const [changedWidth, setChangedWidth] = useState('');
@@ -59,6 +60,7 @@ function App() {
                 </Route> */}
                     <Route exact path='/'>
                         <Main />
+                        <Footer />
                     </Route>
                     <Route path='/movies'>
                         <Movies
@@ -67,21 +69,22 @@ function App() {
                             setMoviesPerPage={setMoviesPerPage}
                             addMovies={addMovies}
                         />
+                        <Footer />
                     </Route>
                     <Route path='/saved-movies'>
                         <SavedMovies
-                        changedWidth={changedWidth}
-                        moviesPerPage={moviesPerPage}
-                        setMoviesPerPage={setMoviesPerPage}
-                        addMovies={addMovies}
+                            changedWidth={changedWidth}
+                            moviesPerPage={moviesPerPage}
+                            setMoviesPerPage={setMoviesPerPage}
+                            addMovies={addMovies}
                         />
+                        <Footer />
                     </Route>
-                    {/* <Route path='/profile'>
-
-                </Route> */}
+                    <Route path='/profile'>
+                        <Profile />
+                    </Route>
 
                 </Switch>
-                <Footer />
             </div>
         </div>
     );

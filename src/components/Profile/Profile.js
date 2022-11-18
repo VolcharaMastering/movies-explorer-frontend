@@ -14,31 +14,31 @@ function Profile(props) {
     return (
             <form className='profile__form'>
                 <div className='profile__box'>
-                    <h2 className='profile__greeting'>Привет, !</h2>
+                    <h2 className='profile__greeting'>Привет, {userName}!</h2>
                     <div className='profile__name'>
                         <p className='profile__label'>Имя</p>
-                        <p className='profile__auto-label'>Юзверь</p>
+                        <p className='profile__auto-label'>{userName}</p>
                     </div>
                     <div className='profile__name'>
                         <p className='profile__label'>E-mail</p>
-                        <p className='profile__auto-label'></p>
+                        <p className='profile__auto-label'>{userMail}</p>
                     </div>
-                    <button
+                    <p
                         className="profile__change"
                         type="button"
                         aria-label='change user info'
                         onClick={handleSubmitForm}
                     >
                         Редактировать
-                    </button>
-                    <button
+                    </p>
+                    <p
                         className="profile__exit"
                         type="button"
                         aria-label='exit user'
                         // onClick={onLogout}
                     >
                         Выйти из аккаунта
-                    </button>
+                    </p>
                 </div>
             </form>
     );

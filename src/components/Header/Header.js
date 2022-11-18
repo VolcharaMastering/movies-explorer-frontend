@@ -42,7 +42,9 @@ function Header(props) {
                     </div>)
                 setUserBox(
                     <div className="header__user-form">
-                        <Link to='/profile' className="header__link">Аккаунт</Link>
+                        <Link to='/profile' className="header__link">
+                        {(linkActive === 'akk') ? '' : 'Аккаунт'}
+                        </Link>
                         <Link to='/profile' className="header__img-link" />
                     </div>);
             }
@@ -129,9 +131,9 @@ function Header(props) {
 
     }, [pathname, props.changedWidth, isMenuOpen, linkActive]);
 
-useEffect(()=>{
-    if (props.changedWidth==='monitor') {setIsMenuOpen(false)};
-},[props.changedWidth])
+    useEffect(() => {
+        if (props.changedWidth === 'monitor') { setIsMenuOpen(false) };
+    }, [props.changedWidth])
 
     return (
         <header className="header">
