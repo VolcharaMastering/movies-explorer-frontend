@@ -1,7 +1,7 @@
 import '../../index.css';
 import './App.css';
 import React, { useEffect, useState } from "react";
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useLocation } from 'react-router-dom';
 
 import Header from "../Header/Header.js";
 import Main from "../Main/Main.js";
@@ -9,11 +9,13 @@ import Footer from "../Footer/Footer.js"
 import Movies from '../Movies/Movies.js';
 import SavedMovies from '../SavedMovies/SavedMovies.js';
 import Profile from '../Profile/Profile';
+import Register from '../Register/Register';
 
 function App() {
     const [changedWidth, setChangedWidth] = useState('');
     const [addMovies, setAddMovies] = useState(Number);
     const [moviesPerPage, setMoviesPerPage] = useState(Number);
+    const { pathname } = useLocation();
 
     //----here is checking window resizing------
     const checkWindowSize = () => {
@@ -47,17 +49,21 @@ function App() {
 
     return (
         <div className='page'>
-            <div className='app'>
+            <div className={
+            `app 
+        ${(pathname === '/signin' || pathname === '/signup') ?
+        'app_replace' : ''}
+    `}>
                 <Header
                     changedWidth={changedWidth}
                 />
                 <Switch>
                     {/* <Route path='/signin'>
 
-                </Route>
-                <Route path='/signup'>
-
                 </Route> */}
+                <Route path='/signup'>
+                    <Register/>
+                </Route>
                     <Route exact path='/'>
                         <Main />
                         <Footer />

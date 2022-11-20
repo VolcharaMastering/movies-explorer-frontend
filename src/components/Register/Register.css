@@ -1,0 +1,146 @@
+.register {
+    max-width: 400px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+}
+
+.register__form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0;
+}
+@media screen and (max-width: 649px) {
+    .register__form {
+        height: 110vh;
+    }
+}
+
+
+.register__greeting {
+    align-self: flex-start;
+    font-size: 24px;
+    font-weight: 500;
+    margin: 40px 0 20px;
+}
+
+@media screen and (max-width: 649px) {
+    .register__greeting {
+        align-self: center;
+        margin: 55px 0 60px;
+    }
+}
+
+.register__input-box {
+    width: 396px;
+    height: 68px;
+    font-weight: 400;
+    margin: 20px 0 0;
+}
+@media screen and (max-width: 649px) {
+    .register__input-box {
+        width: 260px;
+    }
+}
+
+.register__input-label {
+    font-size: 10px;
+    color: #8B8B8B;
+    margin: 0;
+}
+/* @media screen and (max-width: 649px) {
+    .register__input-label {
+        width: 260px;
+    }
+} */
+
+.register__input {
+    font-size: 13px;
+    width: 100%;
+    color: white;
+    height: 46px;
+    border: none;
+    background-color: #2F2F2F;
+    border-radius: 8px;
+    box-sizing: border-box;
+    margin: 10px 0 0;
+    padding-left: 15px;
+}
+
+#register-password {
+    color: #EE3465;
+}
+
+.register__input:hover {
+    border: 1px solid #5A5A5A;
+}
+
+.register__input-error {
+    color: #EE3465;
+    align-self: flex-start;
+    font-size: 10px;
+    margin: 10px 0 0;
+}
+
+.register__button {
+    width: 396px;
+    height: 45px;
+    background-color: #4285F4;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 3px;
+    border: none;
+    transition: opacity 0.5s linear;
+    margin: 69px 0 0;
+}
+@media screen and (max-width: 649px) {
+    .register__button {
+        width: 260px;
+        height: 46px;
+        font-size: 12px;
+        margin-top: 162px;
+    }
+}
+
+.register__button:hover {
+    cursor: pointer;
+    opacity: 80%;
+}
+
+.register__button_label {
+    text-align: center;
+}
+
+.register__label {
+    display: flex;
+    font-size: 14px;
+    font-weight: 400;
+    color: #8B8B8B;
+    align-items: center;
+    margin: 0;
+}
+@media screen and (max-width: 649px) {
+    .register__label {
+        font-size: 12px;
+        margin-top: 7px;
+    }
+}
+
+.register__login-link {
+    color: #4285F4;
+    text-decoration: none;
+    cursor: pointer;
+    transition: opacity 0.5s linear;
+    margin: 0;
+}
+
+.register__login-link:hover {
+    cursor: pointer;
+    opacity: 80%;
+    margin-left: 3px;
+}

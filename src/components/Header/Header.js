@@ -43,7 +43,7 @@ function Header(props) {
                 setUserBox(
                     <div className="header__user-form">
                         <Link to='/profile' className="header__link">
-                        {(linkActive === 'akk') ? '' : 'Аккаунт'}
+                            {(linkActive === 'akk') ? '' : 'Аккаунт'}
                         </Link>
                         <Link to='/profile' className="header__img-link" />
                     </div>);
@@ -136,8 +136,20 @@ function Header(props) {
     }, [props.changedWidth])
 
     return (
-        <header className="header">
-            <Link to='/' className="header__logo"></Link>
+        <header className={
+            `header 
+        ${(pathname === '/signin' || pathname === '/signup') ?
+        'header_replace' : ''}
+    `}>
+            
+            <div className={
+                `header__logo-box 
+            ${(pathname === '/signin' || pathname === '/signup') ?
+            'header__logo-box_replace' : ''}
+        `}
+        >
+                <Link to='/' className="header__logo"></Link>
+            </div>
             {headerLinks}
             {userBox}
         </header>
