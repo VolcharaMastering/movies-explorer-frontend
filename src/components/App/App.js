@@ -10,11 +10,14 @@ import Movies from '../Movies/Movies.js';
 import SavedMovies from '../SavedMovies/SavedMovies.js';
 import Profile from '../Profile/Profile';
 import Register from '../Register/Register';
+import Login from '../Login/Login';
+import NotFound from '../NotFound/NotFound';
 
 function App() {
     const [changedWidth, setChangedWidth] = useState('');
     const [addMovies, setAddMovies] = useState(Number);
     const [moviesPerPage, setMoviesPerPage] = useState(Number);
+    const [notFoundPage, setNotFoundPage] = useState(false);
     const { pathname } = useLocation();
 
     //----here is checking window resizing------
@@ -46,24 +49,29 @@ function App() {
     useEffect(() => {
         checkWindowSize();
     }, []);
+    const makeMark = (val) => {
+        setNotFoundPage(val);
+    };
 
     return (
         <div className='page'>
             <div className={
-            `app 
-        ${(pathname === '/signin' || pathname === '/signup') ?
-        'app_replace' : ''}
-    `}>
-                <Header
-                    changedWidth={changedWidth}
-                />
+                `app 
+                     ${(pathname === '/signin' || pathname === '/signup') ?
+                    'app_replace' : ''}
+            `}>
+                {
+                    notFoundPage ? null : <Header
+                        changedWidth={changedWidth}
+                    />
+                }
                 <Switch>
-                    {/* <Route path='/signin'>
-
-                </Route> */}
-                <Route path='/signup'>
-                    <Register/>
-                </Route>
+                    <Route path='/signin'>
+                        <Login />
+                    </Route>
+                    <Route path='/signup'>
+                        <Register />
+                    </Route>
                     <Route exact path='/'>
                         <Main />
                         <Footer />
@@ -90,6 +98,12 @@ function App() {
                         <Profile />
                     </Route>
 
+                    <Route path='/*'>
+                        <NotFound 
+                        makeMark={makeMark}
+                        
+                        />
+                    </Route>
                 </Switch>
             </div>
         </div>
