@@ -28,9 +28,9 @@ function SearchForm(props) {
                     />
                     <button
                         className="search-form__button"
-                        type="button"
+                        type='submit'
                         aria-label='search'
-                        onClick={handleSubmitForm}
+                        onSubmit={handleSubmitForm}
                     >
                         Поиск
                     </button>

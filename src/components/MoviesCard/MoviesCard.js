@@ -18,7 +18,7 @@ const pathname=window.location.pathname;
                     `${(props.movie.saved && pathname!=='/saved-movies') ? 
                     'movies-card__saved-position' : 'movies-card__save-position'}`
                     }>
-                    <div
+                    <button
                         className={
                             pathname!=='/saved-movies' ?
                             (`${props.movie.saved ? 'movies-card__saved' : 'movies-card__save'}`) :
@@ -29,7 +29,7 @@ const pathname=window.location.pathname;
                         aria-label="Сохранить"
                     >
                         {`${props.movie.saved ? '' : 'Сохранить'}`}
-                    </div>
+                    </button>
                 </div>
             </div>
             <div className="movies-card__caption">

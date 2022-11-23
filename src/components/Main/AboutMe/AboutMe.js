@@ -25,7 +25,8 @@ function AboutMe(props) {
                         </p>
                         <a
                             className='aboutme__github'
-                            href='https://github.com/VolcharaMastering?tab=repositories'>
+                            href='https://github.com/VolcharaMastering?tab=repositories'
+                            target="_blank" rel="noreferrer">
                             Github
                         </a>
                     </div>

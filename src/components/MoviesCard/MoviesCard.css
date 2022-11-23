@@ -64,6 +64,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    border: none;
+    color: inherit;
     font-size: 10px;
     font-weight: 400;
     border-radius: 10px;
@@ -75,6 +77,8 @@
     background-image: url(../../images/saved.svg);
     width: 21px;
     height: 21px;
+    border: none;
+    background-color: transparent;
     margin: 0;
     content: '';
 }

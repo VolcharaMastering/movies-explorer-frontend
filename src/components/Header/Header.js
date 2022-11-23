@@ -37,15 +37,15 @@ function Header(props) {
             if (props.changedWidth === 'monitor') {
                 setHeaderLinks(
                     <div className="header__links-form">
-                        <Link to='/movies' className="header__link">Фильмы</Link>
-                        <Link to='/saved-movies' className="header__link">Сохранённые фильмы</Link>
+                        <Link to='/movies' target="_blank" className="header__link">Фильмы</Link>
+                        <Link to='/saved-movies' target="_blank" className="header__link">Сохранённые фильмы</Link>
                     </div>)
                 setUserBox(
                     <div className="header__user-form">
-                        <Link to='/profile' className="header__link">
+                        <Link to='/profile' target="_blank" className="header__link">
                             {(linkActive === 'akk') ? '' : 'Аккаунт'}
                         </Link>
-                        <Link to='/profile' className="header__img-link" />
+                        <Link to='/profile' target="_blank" className="header__img-link" />
                     </div>);
             }
             else {
@@ -66,15 +66,17 @@ function Header(props) {
 
                         <div className={classMenu}>
                             <div className="header__links-form">
-                                <Link to='/' className="header__link">Главная</Link>
+                                <Link to='/' target="_blank" className="header__link">Главная</Link>
                                 <Link
                                     to='/movies'
+                                    target="_blank"
                                     className={`header__link ${(linkActive === 'movie') ? 'header__link_active' : ''}`}
                                 >
                                     Фильмы
                                 </Link>
                                 <Link
                                     to='/saved-movies'
+                                    target="_blank"
                                     className={`header__link ${(linkActive === 'saved') ? 'header__link_active' : ''}`}
                                 >
                                     Сохранённые фильмы
@@ -83,11 +85,12 @@ function Header(props) {
                             <div className="header__user-form">
                                 <Link
                                     to='/profile'
+                                    target="_blank"
                                     className={`header__link-akk ${(linkActive === 'akk') ? 'header__link_active' : ''}`}
                                 >
                                     Аккаунт
                                 </Link>
-                                <Link to='/profile' className="header__img-link" />
+                                <Link to='/profile' target="_blank" className="header__img-link" />
                             </div>
                         </div>
                         {isMenuOpen ? <div
@@ -124,8 +127,8 @@ function Header(props) {
             default:
                 setHeaderLinks(<div className="header__no-links"></div>)
                 setUserBox(<div className="header__user-buttons">
-                    <p className="header__signup">Регистрация</p>
-                    <div className="header__button">Войти</div>
+                    <Link to="/signup" target="_blank" className="header__signup">Регистрация</Link>
+                    <Link to="/signin" target="_blank" className="header__button">Войти</Link>
                 </div>);
         }
 
@@ -148,7 +151,7 @@ function Header(props) {
             'header__logo-box_replace' : ''}
         `}
         >
-                <Link to='/' className="header__logo"></Link>
+                <Link to='/'  target="_blank" className="header__logo"></Link>
             </div>
             {headerLinks}
             {userBox}

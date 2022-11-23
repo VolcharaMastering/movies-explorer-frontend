@@ -7,41 +7,47 @@ function portfolio(props) {
         <>
             <div className='portfolio__title-box'>
                 <h2 className='portfolio__portfolio'>Портфолио</h2>
-                <div className='portfolio__links'>
-                    <div className='portfolio__link-box'>
+                <ul className='portfolio__links'>
+                    <li className='portfolio__link-box'>
                         <a
                             className='portfolio__link'
-                            href='https://volcharamastering.github.io/russian-travel_vmstr/'>
+                            href='https://volcharamastering.github.io/russian-travel_vmstr/'
+                            target="_blank" rel="noreferrer">
                             Статичный сайт
                         </a>
                         <a
                             className='portfolio__link-arrow'
-                            href='https://volcharamastering.github.io/russian-travel_vmstr/'> ↗
+                            href='https://volcharamastering.github.io/russian-travel_vmstr/'
+                            target="_blank" rel="noreferrer"> ↗
                         </a>
-                    </div>
-                    <div className='portfolio__link-box'>
+                    </li>
+                    <li className='portfolio__link-box'>
                         <a
                             className='portfolio__link'
-                            href='https://volcharamastering.github.io/mesto_vmstr/'>
+                            href='https://volcharamastering.github.io/mesto_vmstr/'
+                            target="_blank" rel="noreferrer">
                             Адаптивный сайт
                         </a>
                         <a
                             className='portfolio__link-arrow'
-                            href='https://volcharamastering.github.io/mesto_vmstr/'>↗
+                            href='https://volcharamastering.github.io/mesto_vmstr/'
+                            target="_blank" rel="noreferrer">↗
                         </a>
-                    </div>
-                    <div className='portfolio__link-box'>
+                    </li>
+                    <li className='portfolio__link-box'>
                         <a
                             className='portfolio__link'
-                            href='https://mesto.vmstr.nomoredomains.icu'>
+                            href='https://mesto.vmstr.nomoredomains.icu'
+                            target="_blank" rel="noreferrer">
                             Одностраничное приложение
                         </a>
                         <a
                             className='portfolio__link-arrow'
-                            href='https://mesto.vmstr.nomoredomains.icu'>↗
+                            href='https://mesto.vmstr.nomoredomains.icu'
+                            target="_blank" rel="noreferrer">↗
                         </a>
-                    </div>
-                </div>
+                    </li>
+                </ul>
             </div>
         </>
     );

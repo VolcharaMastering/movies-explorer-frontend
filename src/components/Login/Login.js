@@ -61,7 +61,7 @@ function Login(props) {
                 </button>
                 <div className="login__label">
                     <p>Ещё не зарегистрированы?&nbsp;</p>
-                    <Link to="/signup" className="login__login-link">Регистрация</Link>
+                    <Link to="/signup" target="_blank" className="login__login-link">Регистрация</Link>
                 </div>
             </form>
         </section>

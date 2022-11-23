@@ -45,6 +45,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+    padding: 0;
     margin: 27px 0 0;
 }
 
@@ -58,6 +59,7 @@
     width: 100%;
     height: 90px;
     display: flex;
+    list-style: none;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #424242;
