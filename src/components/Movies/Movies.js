@@ -5,17 +5,30 @@ import './Movies.css'
 import SearchForm from "../SearchForm/SearchForm.js";
 // import Preloader from "../Preloader/Preloader.js";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
-import movies from "./moviesList.json";
+import moviesApi from "../../utils/MoviesApi";
 
 
 function Movies(props) {
+    const [movies, setMovies] = React.useState([]);
     const [moviesToShow, setMoviesToShow] = React.useState([]);
     const [filteredMovies, setFilteredMovies] = React.useState([]);
     const [searchMovie, setSearchMovie] = React.useState('');
     const [onSlider, setOnSlider] = React.useState(false);
     let handleFlag = false;
 
+
     //=======creating an array of movies=======
+
+    const getAllMoviesFromYaApi = () => {
+        moviesApi.getMovies()
+            .then((data) => {
+                setMovies(data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+
+    }
 
     function loopWithSlice(start, end) {
         const slicedMovies = (handleFlag ? filteredMovies.slice(start, end) : movies.slice(start, end));
@@ -80,6 +93,7 @@ function Movies(props) {
         props.setMoviesPerPage(props.moviesPerPage + props.addMovies);
     };
     //----------------
+    getAllMoviesFromYaApi();
     //=========================
     const handleFindFilm = (e) => {
         e.preventDefault();

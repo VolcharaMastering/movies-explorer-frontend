@@ -11,7 +11,7 @@ const pathname=window.location.pathname;
             <div className="movies-card__image-box">
                 <img
                     className="movies-card__image"
-                    src={props.movie.image}
+                    src={`https://api.nomoreparties.co${props.movie.image.url}`}
                     alt={`Постер к фильму: ${props.movie.nameRU}`}
                 />
                 <div className={
