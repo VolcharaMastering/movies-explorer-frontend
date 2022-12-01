@@ -7,22 +7,21 @@ import Slider from './Slider/Slider.js';
 
 function SearchForm(props) {
 
-    const handleSubmitForm = (e) => {
-        e.preventDefault();
-        props.handleFindFilm(e);
-    }
-
     return (
         <>
-            <form className='search-form__form'>
+            <form 
+            className='search-form__form'
+            onSubmit={e => props.handleFindFilm(e)}
+            >
                 <div className='search-form__input-box'>
                     <input
                         className='search-form__input'
                         type="text"
                         placeholder="Фильм"
                         id="search-form"
+                        ref={props.searchInput}
                         name="search"
-                        onChange={props.searchMovie}
+                        onChange={e => props.searchMovie(e.target.value)}
                         required
                         maxLength="400"
                     />
@@ -30,7 +29,6 @@ function SearchForm(props) {
                         className="search-form__button"
                         type='submit'
                         aria-label='search'
-                        onSubmit={handleSubmitForm}
                     >
                         Поиск
                     </button>

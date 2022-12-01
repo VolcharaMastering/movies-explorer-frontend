@@ -14,11 +14,12 @@ function Movies(props) {
     const [filteredMovies, setFilteredMovies] = React.useState([]);
     const [searchMovie, setSearchMovie] = React.useState('');
     const [onSlider, setOnSlider] = React.useState(false);
-    let handleFlag = false;
+    const [showButton, setShowButton] = React.useState(false);
+    // let handleFlag = false;
 
 
     //=======creating an array of movies=======
-
+    const searchInput = React.useRef('');
     const getAllMoviesFromYaApi = () => {
         moviesApi.getMovies()
             .then((data) => {
@@ -27,61 +28,50 @@ function Movies(props) {
             .catch((err) => {
                 console.log(err);
             });
-
     }
 
     function loopWithSlice(start, end) {
-        const slicedMovies = (handleFlag ? filteredMovies.slice(start, end) : movies.slice(start, end));
-        console.log(slicedMovies, handleFlag)
+        const slicedMovies = filteredMovies.slice(start, end);
+        console.log(slicedMovies, filteredMovies, moviesToShow)
         setMoviesToShow(previosMovies => [...previosMovies, ...slicedMovies]);
-        updateFlag();
     };
 
-    const updateFlag = () => {
-        handleFlag = false;
-
-    }
     const findInAll = () => {
         const filmsFound = movies.filter(film =>
             film.nameRU.toLowerCase().includes(searchMovie.toLowerCase()) ||
             film.nameEN.toLowerCase().includes(searchMovie.toLowerCase()) ||
             film.description.toLowerCase().includes(searchMovie.toLowerCase())
         );
+        // console.log(filmsFound);
         return filmsFound;
     }
     const findInShort = () => {
-        const filmsFound = movies.filter(film =>
-            (film.nameRU.toLowerCase().includes(searchMovie.toLowerCase()) ||
-                film.nameEN.toLowerCase().includes(searchMovie.toLowerCase()) ||
-                film.description.toLowerCase().includes(searchMovie.toLowerCase())) &&
-            film.duration <= 120
+        const filmsFound = movies.filter(film => (
+            film.nameRU.toLowerCase().includes(searchMovie.toLowerCase()) ||
+            film.nameEN.toLowerCase().includes(searchMovie.toLowerCase()) ||
+            film.description.toLowerCase().includes(searchMovie.toLowerCase())) &&
+            film.duration <= 40
         );
         return filmsFound;
     }
-    const getShort = () => {
-        setFilteredMovies(movies.filter(film => film.duration <= 120));
-    }
 
     useEffect(() => {
-        setMoviesToShow([]);
-        switch (true) {
-            case (onSlider && searchMovie.length > 0):
-                handleFlag = true;
-                setFilteredMovies(findInShort());
-                break;
-            case (onSlider && searchMovie.length === 0):
-                handleFlag = true;
-                getShort();
-                break;
-            case (!onSlider && searchMovie.length > 0):
-                handleFlag = true;
-                setFilteredMovies(findInAll());
-                break;
-            default:
-                console.log('DEFAULT');
+        if (searchMovie.length === 0) {
+            setMoviesToShow([]);
+            return;
+        }
+        console.log(searchMovie)
+        if (onSlider) {
+            setFilteredMovies(findInShort());
+            setMoviesToShow([]);
+        }
+        else {
+            setFilteredMovies(findInAll());
+            setMoviesToShow([]);
         }
         loopWithSlice(0, props.moviesPerPage);
-    }, [props.changedWidth, onSlider, searchMovie]);
+    }, [onSlider, searchMovie]);
+    // }, [onSlider]);
 
     // const savedMovie = (gotMovie) => {
     //     const film = movies.find(movie => movie._id = gotMovie._id)
@@ -97,19 +87,21 @@ function Movies(props) {
     //=========================
     const handleFindFilm = (e) => {
         e.preventDefault();
-        getSearchString(e);
+        getSearchString(searchInput.current.value);
+        console.log(searchInput.current.value);
     };
     const handleToggleSlider = () => {
         setOnSlider(!onSlider);
     };
-    const getSearchString = (e) => {
-        setSearchMovie(e.target.value);
+    const getSearchString = (val) => {
+        setSearchMovie(val);
     }
     return (
         <main className="movies">
             <section className="search-form">
                 <SearchForm
-                    searchMovie={getSearchString}
+                    searchInput={searchInput}
+                    searchMovie={setSearchMovie}
                     handleFindFilm={handleFindFilm}
                     onSlider={onSlider}
                     toggleSlider={handleToggleSlider}
@@ -122,6 +114,7 @@ function Movies(props) {
                 <MoviesCardList
                     moviesToRender={moviesToShow}
                     moreMovies={handleShowMoreMovies}
+                    showButton={showButton}
                 />
             </section>
         </main >
