@@ -8,3 +8,6 @@
     justify-content: center;
     margin: 0 auto;
 }
+.movie__info-label{
+    text-align: center;
+}

@@ -35,7 +35,7 @@ function SearchForm(props) {
                 </div>
                 <Slider
                     isOn={props.onSlider}
-                    handleToggle={props.toggleSlider}
+                    toggleSlider={props.toggleSlider}
                     onColor="#3DDC84"
                 />
             </form>

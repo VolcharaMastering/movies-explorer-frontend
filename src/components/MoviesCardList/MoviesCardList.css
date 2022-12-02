@@ -70,10 +70,13 @@
     font-size: 12px;
     font-weight: 500;
     cursor: pointer;
+    visibility: hidden;
     transition: opacity 0.5s linear;
     margin: 0;
 }
-
+.movies-list__more-button_show{
+    visibility: visible;   
+}
 .movies-list__more-button:hover {
     opacity: 60%;
     cursor: pointer;

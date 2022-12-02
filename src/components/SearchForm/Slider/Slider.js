@@ -1,12 +1,16 @@
 import React from 'react';
 import './Slider.css';
 
-const Slider = ({ isOn, onColor, handleToggle }) => {
+const Slider = ({ isOn, onColor, toggleSlider }) => {
+    // let checked;
+//     React.useEffect(()=>{
+//  checked= isOn;
+//     },[isOn])
     return (
         <div className='search-slider'>
             <input
                 checked={isOn}
-                onChange={handleToggle}
+                onChange={toggleSlider}
                 className="search-slider__checkbox"
                 id={`search-slider__new`}
                 type="checkbox"

@@ -142,16 +142,16 @@ function Header(props) {
         <header className={
             `header 
         ${(pathname === '/signin' || pathname === '/signup') ?
-        'header_replace' : ''}
+                'header_replace' : ''}
     `}>
-            
+
             <div className={
                 `header__logo-box 
             ${(pathname === '/signin' || pathname === '/signup') ?
-            'header__logo-box_replace' : ''}
+                    'header__logo-box_replace' : ''}
         `}
-        >
-                <Link to='/'  target="_blank" className="header__logo"></Link>
+            >
+                <Link to='/' target="_blank" className="header__logo"></Link>
             </div>
             {headerLinks}
             {userBox}
