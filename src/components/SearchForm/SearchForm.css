@@ -84,3 +84,17 @@ border: 1.5px solid #FFF;
         right: 6px;
     }
 }
+
+.search-form__valid-error{
+    font-size: 12px;
+    color: rgb(250, 57, 57);
+    opacity: 0;
+    left: 35px;
+    bottom: 70px;
+    position: absolute;
+    border: 0;
+    transition: 0.3s;
+}
+.search-form__valid-error_active{
+    opacity: 1;
+}

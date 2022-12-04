@@ -30,11 +30,13 @@
 }
 
 .login__input-box {
+    position: relative;
     width: 396px;
     height: 68px;
     font-weight: 400;
     margin: 20px 0 0;
 }
+
 @media screen and (max-width: 649px) {
     .login__input-box {
         width: 260px;
@@ -46,6 +48,7 @@
     color: #8B8B8B;
     margin: 0;
 }
+
 /* @media screen and (max-width: 649px) {
     .login__input-label {
         width: 260px;
@@ -85,6 +88,7 @@
     transition: opacity 0.5s linear;
     margin: 179px 0 0;
 }
+
 @media screen and (max-width: 649px) {
     .login__button {
         width: 260px;
@@ -92,6 +96,12 @@
         font-size: 12px;
         margin-top: 267px;
     }
+}
+.login__button_disabled{
+    pointer-events: none;
+    border:  1px solid rgba(230, 95, 95, 0.2);
+    background-color: rgba(230, 95, 95,0);
+    color: rgba(230, 95, 95,20%);
 }
 
 .login__button:hover {
@@ -111,6 +121,7 @@
     align-items: center;
     margin: 0;
 }
+
 @media screen and (max-width: 649px) {
     .login__label {
         font-size: 12px;
@@ -130,4 +141,35 @@
     cursor: pointer;
     opacity: 80%;
     margin-left: 3px;
+}
+
+.login__valid-error {
+    font-size: 10px;
+    font-weight: 400;
+    color: rgb(212, 167, 19);
+    opacity: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    bottom: -15px;
+    position: absolute;
+    border: 0;
+    transition: 0.3s;
+}
+
+.login__valid-error_active {
+    opacity: 1;
+}
+
+.login__compare-message {
+    font-size: 12px;
+    font-weight: 400;
+    color: rgb(197, 166, 166);
+    left: 0;
+    right: 0;
+    text-align: center;
+    top: 150px;
+    position: absolute;
+    border: 0;
+    transition: 0.3s;
 }

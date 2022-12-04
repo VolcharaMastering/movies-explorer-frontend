@@ -5,7 +5,7 @@ import './SavedMovies.css'
 import SearchForm from "../SearchForm/SearchForm.js";
 // import Preloader from "../Preloader/Preloader.js";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
-import movies from "../Movies/moviesList.json";
+import moviesApi from "../../utils/MoviesApi.js";
 
 
 function SavedMovies(props) {
@@ -15,6 +15,7 @@ function SavedMovies(props) {
     const [searchMovie, setSearchMovie] = React.useState('');
     const [onSlider, setOnSlider] = React.useState(false);
     let handleFlag = false;
+    const [movies, setMovies] = React.useState([]);
 
     //=======creating an array of movies=======
 
@@ -27,7 +28,16 @@ function SavedMovies(props) {
     // setSavedMovies(movies.filter(film =>film.saved === true));
     // };
     // getSavedMovies();
-    const savedMovies=movies.filter(film =>film.saved === true);
+    const getAllMoviesFromYaApi = () => {
+        moviesApi.getMovies()
+            .then((data) => {
+                setMovies(data);
+            })
+            .catch((err) => {
+            });
+    }
+    const savedMovies=   getAllMoviesFromYaApi();
+
     // useEffect(()=>{
     //     getSavedMovies();
     // },[movies]);

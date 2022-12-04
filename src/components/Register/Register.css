@@ -30,6 +30,7 @@
 }
 
 .register__input-box {
+    position: relative;
     width: 396px;
     height: 68px;
     font-weight: 400;
@@ -100,6 +101,12 @@
         margin-top: 162px;
     }
 }
+.register__button_disabled{
+    pointer-events: none;
+    border:  1px solid rgba(230, 95, 95, 0.2);
+    background-color: rgba(230, 95, 95,0);
+    color: rgba(230, 95, 95,20%);
+}
 
 .register__button:hover {
     cursor: pointer;
@@ -125,7 +132,7 @@
     }
 }
 
-.register__login-link {
+.register__register-link {
     color: #4285F4;
     text-decoration: none;
     cursor: pointer;
@@ -133,8 +140,39 @@
     margin: 0;
 }
 
-.register__login-link:hover {
+.register__register-link:hover {
     cursor: pointer;
     opacity: 80%;
     margin-left: 3px;
+}
+
+.register__valid-error {
+    font-size: 10px;
+    font-weight: 400;
+    color: rgb(212, 167, 19);
+    opacity: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    bottom: -15px;
+    position: absolute;
+    border: 0;
+    transition: 0.3s;
+}
+
+.register__valid-error_active {
+    opacity: 1;
+}
+
+.register__compare-message {
+    font-size: 12px;
+    font-weight: 400;
+    color: rgb(197, 166, 166);
+    left: 0;
+    right: 0;
+    text-align: center;
+    top: 150px;
+    position: absolute;
+    border: 0;
+    transition: 0.3s;
 }
