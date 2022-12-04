@@ -4,7 +4,6 @@ import './Register.css';
 import { useForm } from "react-hook-form";
 import * as yup from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup";
-import { validName } from "../../utils/constants.js";
 
 
 function Register({ onRegister, setRegState }) {
@@ -25,10 +24,6 @@ function Register({ onRegister, setRegState }) {
     });
 
     const onSubmit = (registerData) => {
-        // if (!registerData.email || !registerData.password) {
-        //     return setErrMessage('Email или пароль не верные!');
-        // }
-
         onRegister(registerData)
             .then(() => {
                 // onLogin({ registerData.email, registerData.password })

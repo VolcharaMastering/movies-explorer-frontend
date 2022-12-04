@@ -66,6 +66,14 @@ class Api {
             .then(this._checkResponse);
     }
 
+    setProfile(data) {
+        return fetch(this._URL_CONFIG.url + 'users/me', {
+            headers: this._URL_CONFIG.headers,
+            method: 'PATCH',
+            body: JSON.stringify(data),
+        })
+            .then(this._checkResponse);
+    }
     logout() {
         return fetch(this._URL_CONFIG.url + 'logout', {
             method: 'GET',

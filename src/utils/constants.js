@@ -10,12 +10,4 @@ const URL_CONFIG = {
     "Content-Type": "application/json",
   }
 }
-
-const validName = (value, helpers) => {
-  if (!/[a-zA-Zа-яА-Я0-9- ]+?$/.test(value)) {
-    return helpers.error('any.invalid');
-  }
-  return value;
-};
-
-export { URL_CONFIG, MOVIE_URL, validName };
+export { URL_CONFIG, MOVIE_URL };

@@ -29,7 +29,7 @@ function App() {
     //---------user data for profile and login-------------
     // const [userEmail, setUserEmail] = React.useState('');
     // const [userName, setUserName] = React.useState('');
-     //---------user state-------------
+    //---------user state-------------
     const [loggedIn, setLoggedIn] = React.useState(false);
 
     const history = useHistory();
@@ -105,14 +105,22 @@ function App() {
                 history.push('/signin');
             })
     }
-
-    function onLogout(e) {
-        setLoggedIn(false);
-        localStorage.removeItem('jwt');
-        history.push('/signin');
+    function updateProfile(userData) {
+        mainApi.setProfile(userData)
+            .then((newUser) => {
+                setCurrentUser(newUser);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }
 
-    
+    function onLogout() {
+        setLoggedIn(false);
+        localStorage.removeItem('jwt');
+        history.push('/');
+    }
+
     const logging = () => {
         mainApi.getData()
             .then((usersInfo) => {
@@ -131,64 +139,68 @@ function App() {
 
     return (
         <div className='page'>
-        <CurrentUserContext.Provider value={currentUser}>
-            <div className={
-                `app 
+            <CurrentUserContext.Provider value={currentUser}>
+                <div className={
+                    `app 
                      ${(pathname === '/signin' || pathname === '/signup') ?
-                    'app_replace' : ''}
+                        'app_replace' : ''}
             `}>
-                {
-                    notFoundPage ? null : <Header
-                        changedWidth={changedWidth}
-                    />
-                }
-                <Switch>
-                    <Route path='/signin'>
-                    <Login
-                            onLogin={onLogin}
-                            setRegState={setRegState}
-                        />
-                    </Route>
-                    <Route path='/signup'>
-                        <Register 
-                            onRegister={onRegister}
-                            setRegState={setRegState}
-                        />
-                    </Route>
-                    <Route exact path='/'>
-                        <Main />
-                        <Footer />
-                    </Route>
-                    <Route path='/movies'>
-                        <Movies
+                    {
+                        notFoundPage ? null : <Header
                             changedWidth={changedWidth}
-                            moviesPerPage={moviesPerPage}
-                            setMoviesPerPage={setMoviesPerPage}
-                            addMovies={addMovies}
                         />
-                        <Footer />
-                    </Route>
-                    <Route path='/saved-movies'>
-                        <SavedMovies
-                            changedWidth={changedWidth}
-                            moviesPerPage={moviesPerPage}
-                            setMoviesPerPage={setMoviesPerPage}
-                            addMovies={addMovies}
-                        />
-                        <Footer />
-                    </Route>
-                    <Route path='/profile'>
-                        <Profile />
-                    </Route>
+                    }
+                    <Switch>
+                        <Route path='/signin'>
+                            <Login
+                                onLogin={onLogin}
+                                setRegState={setRegState}
+                            />
+                        </Route>
+                        <Route path='/signup'>
+                            <Register
+                                onRegister={onRegister}
+                                setRegState={setRegState}
+                            />
+                        </Route>
+                        <Route exact path='/'>
+                            <Main />
+                            <Footer />
+                        </Route>
+                        <Route path='/movies'>
+                            <Movies
+                                changedWidth={changedWidth}
+                                moviesPerPage={moviesPerPage}
+                                setMoviesPerPage={setMoviesPerPage}
+                                addMovies={addMovies}
+                            />
+                            <Footer />
+                        </Route>
+                        <Route path='/saved-movies'>
+                            <SavedMovies
+                                changedWidth={changedWidth}
+                                moviesPerPage={moviesPerPage}
+                                setMoviesPerPage={setMoviesPerPage}
+                                addMovies={addMovies}
+                            />
+                            <Footer />
+                        </Route>
+                        <Route path='/profile'>
+                            <Profile
+                                updateProfile={updateProfile}
+                                updateUser={setCurrentUser}
+                                onLogout={onLogout}
+                            />
+                        </Route>
 
-                    <Route path='/*'>
-                        <NotFound
-                            makeMark={makeMark}
+                        <Route path='/*'>
+                            <NotFound
+                                makeMark={makeMark}
 
-                        />
-                    </Route>
-                </Switch>
-            </div>
+                            />
+                        </Route>
+                    </Switch>
+                </div>
             </CurrentUserContext.Provider>
         </div>
     );
