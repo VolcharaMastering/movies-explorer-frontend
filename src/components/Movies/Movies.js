@@ -8,7 +8,10 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import moviesApi from "../../utils/MoviesApi.js";
 import mainApi from "../../utils/MainApi.js";
 import Preloader from "../Preloader/Preloader.js";
-import { CurrentUserContext } from '../../contexts/CurrentUserContext.js';
+import { CurrentUserContext} from '../../contexts/CurrentUserContext.js';
+import { FoundFilmsContext} from '../../contexts/FoundFilmsContext.js';
+import { SliderStateContext} from '../../contexts/SliderStateContext.js';
+
 
 
 function Movies(props) {
@@ -24,6 +27,7 @@ function Movies(props) {
 
     //=======creating an array of movies=======
     const searchInput = React.useRef('');
+
     const getAllMoviesFromYaApi = () => {
         moviesApi.getMovies()
             .then((data) => {
@@ -116,6 +120,8 @@ function Movies(props) {
 
     return (
         <main className="movies">
+            <FoundFilmsContext.Provider value={moviesToShow}>
+            <SliderStateContext.Provider value={onSlider}>
             <section className="search-form">
                 <SearchForm
                     searchInput={searchInput}
@@ -141,6 +147,8 @@ function Movies(props) {
                             />
                 }
             </section>
+            </SliderStateContext.Provider>
+            </FoundFilmsContext.Provider>
         </main >
     );
 }

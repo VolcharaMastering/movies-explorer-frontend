@@ -4,9 +4,12 @@ import { useForm } from "react-hook-form";
 import './SearchForm.css';
 import '../Movies/Movies.js';
 import Slider from './Slider/Slider.js';
+import { SearchStringContext } from '../../contexts/SearchStringContext.js';
 
 
 function SearchForm(props) {
+    const contextString = React.useContext(SearchStringContext);
+    const [searchString, setSearchString] = React.useState('');
     const {
         register,
         formState: { errors },
@@ -14,10 +17,11 @@ function SearchForm(props) {
     } = useForm({ mode: "onChange" });
 
     const onSubmit = (inputText) => {
+        setSearchString(inputText.search);
         props.handleFindFilm(inputText.search);
     }
     return (
-        <>
+        <SearchStringContext.Provider value={searchString}>
             <form
                 className='search-form__form'
                 onSubmit={handleSubmit(onSubmit)}
@@ -27,6 +31,7 @@ function SearchForm(props) {
                         {...register("search", {
                             required: "Нужно ввести ключевое слово",
                         })}
+                        defaultValue={contextString || ''}
                         className='search-form__input'
                         placeholder="Фильм"
                         id="search-form"
@@ -51,7 +56,7 @@ function SearchForm(props) {
                     onColor="#3DDC84"
                 />
             </form>
-        </>
+            </SearchStringContext.Provider>
     );
 
 };
