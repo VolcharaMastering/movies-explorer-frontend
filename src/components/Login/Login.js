@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import * as yup from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup";
 
-function Login({ onLogin, setRegState }) {
+function Login({ onLogin }) {
     //---------Error answer in login-------------
     const [errMessage, setErrMessage] = useState('');
 
@@ -26,11 +26,12 @@ function Login({ onLogin, setRegState }) {
 
         onLogin(loginData)
             .then(() => {
-                setRegState(true);
+                // setRegState(true);
+                setErrMessage('OK!');
             })
             .catch((err) => {
                 setErrMessage('Что-то пошло не так! Попробуйте ещё раз.');
-                setRegState(false);
+                // setRegState(false);
             })
 
     }

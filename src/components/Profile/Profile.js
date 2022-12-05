@@ -39,8 +39,10 @@ function Profile({ updateProfile, updateUser, onLogout }) {
         register,
         formState: { errors, isValid },
         handleSubmit
+
     } = useForm({
-        mode: "all",
+        mode: "onChange",
+        // defaultValues: { name: user.name, email: user.email },
         resolver: yupResolver(validForm)
     });
     return (
@@ -51,7 +53,6 @@ function Profile({ updateProfile, updateUser, onLogout }) {
                 <h2 className='profile__greeting'>Привет, {user.name}!</h2>
                 <div className='profile__name'>
                     <p className='profile__label'>Имя</p>
-                    {/* <p className='profile__auto-label'>{user.name}</p> */}
                     <input
                         {...register("name")}
                         className="profile__auto-label"
@@ -67,13 +68,12 @@ function Profile({ updateProfile, updateUser, onLogout }) {
                 </div>
                 <div className='profile__name'>
                     <p className='profile__label'>E-mail</p>
-                    {/* <p className='profile__auto-label'>{userMail}</p> */}
                     <input
                         {...register("email")}
                         className="profile__auto-label"
                         type="text"
                         id="profile-email"
-                        defaultValue={user.email || ''}
+                        defaultValue={user.email}
                     />
                     <span className={
                         `profile__valid-error 

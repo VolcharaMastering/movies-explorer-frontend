@@ -66,7 +66,11 @@ function Header(props) {
 
                         <div className={classMenu}>
                             <div className="header__links-form">
-                                <Link to='/' target="_blank" className="header__link">Главная</Link>
+                                <Link to='/' target="_blank" 
+                                className={`header__link ${(linkActive === 'main') ? 'header__link_active' : ''}`}
+                                >
+                                    Главная
+                                    </Link>
                                 <Link
                                     to='/movies'
                                     target="_blank"
@@ -115,6 +119,7 @@ function Header(props) {
             case '/movies':
                 setLinkActive('movie');
                 getHTML();
+                console.log("regstate", props.loggedIn)
                 break;
             case '/saved-movies':
                 setLinkActive('saved');
@@ -123,16 +128,23 @@ function Header(props) {
             case '/profile':
                 setLinkActive('akk');
                 getHTML();
+                console.log("regstate", props.loggedIn)
                 break;
             default:
-                setHeaderLinks(<div className="header__no-links"></div>)
-                setUserBox(<div className="header__user-buttons">
-                    <Link to="/signup" target="_blank" className="header__signup">Регистрация</Link>
-                    <Link to="/signin" target="_blank" className="header__button">Войти</Link>
-                </div>);
+                if (props.loggedIn) {
+                    setLinkActive('main');
+                    getHTML();
+                } else {
+                    console.log("regstate", props.loggedIn)
+                    setHeaderLinks(<div className="header__no-links"></div>)
+                    setUserBox(<div className="header__user-buttons">
+                        <Link to="/signup" target="_blank" className="header__signup">Регистрация</Link>
+                        <Link to="/signin" target="_blank" className="header__button">Войти</Link>
+                    </div>);
+                }
         }
 
-    }, [pathname, props.changedWidth, isMenuOpen, linkActive]);
+    }, [pathname, props.changedWidth, isMenuOpen, linkActive, props.loggedIn]);
 
     useEffect(() => {
         if (props.changedWidth === 'monitor') { setIsMenuOpen(false) };

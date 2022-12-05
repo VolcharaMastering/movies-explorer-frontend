@@ -14,6 +14,7 @@ import Register from '../Register/Register';
 import Login from '../Login/Login';
 import NotFound from '../NotFound/NotFound';
 import mainApi from "../../utils/MainApi.js";
+import ProtectedRoute from '../ProtectedRoute.js';
 
 function App() {
     const [changedWidth, setChangedWidth] = useState('');
@@ -21,18 +22,14 @@ function App() {
     const [moviesPerPage, setMoviesPerPage] = useState(Number);
     const [notFoundPage, setNotFoundPage] = useState(false);
     const { pathname } = useLocation();
+    const history = useHistory();
 
     //----------user state------------
     const [currentUser, setCurrentUser] = React.useState({});
-    const [regState, setRegState] = useState(false);
 
-    //---------user data for profile and login-------------
-    // const [userEmail, setUserEmail] = React.useState('');
-    // const [userName, setUserName] = React.useState('');
     //---------user state-------------
     const [loggedIn, setLoggedIn] = React.useState(false);
 
-    const history = useHistory();
 
     //----here is checking window resizing------
     const checkWindowSize = () => {
@@ -54,8 +51,6 @@ function App() {
                 setMoviesPerPage(12);
         }
     };
-
-
     useEffect(() => {
         window.addEventListener("resize", checkWindowSize);
     });
@@ -63,47 +58,37 @@ function App() {
     useEffect(() => {
         checkWindowSize();
     }, []);
+
+
     const makeMark = (val) => {
         setNotFoundPage(val);
     };
 
-    //-----------Check token-------------
-
-    const tokenCheck = () => {
-        const jwt = localStorage.getItem('jwt');
-        if (!jwt) { return };
-
-        mainApi.authByToken(jwt)
-            .then((res) => {
-                // setUserEmail(res.email);
-                setLoggedIn(true);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    };
-
-    useEffect(() => {
-        tokenCheck();
-    }, [loggedIn]);
-    //------------------------------------------------------------------
+    
 
     //--------Auth functionality-------------
     function onLogin(data) {
         return mainApi.authorize(data)
             .then((res) => {
                 localStorage.setItem('jwt', res.token);
-                // setUserEmail(data.email);
                 setLoggedIn(true);
-                history.go('/movies');
+                history.push('/movies')
+                
+        console.log('from Auth. Go to movie', loggedIn)
+            })
+            .catch((err) => {
+                console.log(err);
             });
     }
 
     function onRegister(data) {
         return mainApi.register(data)
             .then(() => {
-                history.push('/signin');
+                onLogin({email: data.email, password: data.password});
             })
+            .catch((err) => {
+                console.log(err);
+            });
     }
     function updateProfile(userData) {
         mainApi.setProfile(userData)
@@ -119,6 +104,7 @@ function App() {
         setLoggedIn(false);
         localStorage.removeItem('jwt');
         history.push('/');
+        console.log('logout', loggedIn)
     }
 
     const logging = () => {
@@ -130,73 +116,91 @@ function App() {
                 console.log(err);
             })
     }
+//-----------Check token-------------
+
+const tokenCheck = () => {
+    const jwt = localStorage.getItem('jwt');
+    if (!jwt) { return };
+
+    mainApi.authByToken(jwt)
+        .then((res) => {
+            setLoggedIn(true);
+            console.log('InTokenCheck', loggedIn);
+            history.push(pathname);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+
+};
+//------------------------------------------------------------------
+
     useEffect(() => {
+        tokenCheck();
         if (loggedIn) {
             logging();
-            // history.push('/movies');
+                console.log('checkToken', loggedIn)
         }
-    }, [loggedIn, history]);
-
+    }, [loggedIn]);
     return (
         <div className='page'>
             <CurrentUserContext.Provider value={currentUser}>
-                <div className={
-                    `app 
-                     ${(pathname === '/signin' || pathname === '/signup') ?
-                        'app_replace' : ''}
-            `}>
-                    {
-                        notFoundPage ? null : <Header
+                <div className={`app 
+                        ${(pathname === '/signin' || pathname === '/signup') ?
+                        'app_replace' : ''}`}>
+
+                    {notFoundPage ? null :
+                        <Header
                             changedWidth={changedWidth}
-                        />
-                    }
+                        loggedIn={loggedIn}
+                        />}
+
                     <Switch>
                         <Route path='/signin'>
                             <Login
                                 onLogin={onLogin}
-                                setRegState={setRegState}
                             />
                         </Route>
                         <Route path='/signup'>
                             <Register
                                 onRegister={onRegister}
-                                setRegState={setRegState}
                             />
                         </Route>
                         <Route exact path='/'>
                             <Main />
                             <Footer />
                         </Route>
-                        <Route path='/movies'>
-                            <Movies
-                                changedWidth={changedWidth}
-                                moviesPerPage={moviesPerPage}
-                                setMoviesPerPage={setMoviesPerPage}
-                                addMovies={addMovies}
-                            />
-                            <Footer />
-                        </Route>
-                        <Route path='/saved-movies'>
-                            <SavedMovies
-                                changedWidth={changedWidth}
-                                moviesPerPage={moviesPerPage}
-                                setMoviesPerPage={setMoviesPerPage}
-                                addMovies={addMovies}
-                            />
-                            <Footer />
-                        </Route>
-                        <Route path='/profile'>
-                            <Profile
-                                updateProfile={updateProfile}
-                                updateUser={setCurrentUser}
-                                onLogout={onLogout}
-                            />
-                        </Route>
 
+                        <ProtectedRoute
+                            exec path='/movies'
+                            loggedIn={loggedIn}
+                            tokenCheck={tokenCheck}
+                            changedWidth={changedWidth}
+                            moviesPerPage={moviesPerPage}
+                            setMoviesPerPage={setMoviesPerPage}
+                            addMovies={addMovies}
+                            component={Movies}
+                        />
+                        <ProtectedRoute
+                            exec path='/saved-movies'
+                            loggedIn={loggedIn}
+                            changedWidth={changedWidth}
+                            moviesPerPage={moviesPerPage}
+                            setMoviesPerPage={setMoviesPerPage}
+                            addMovies={addMovies}
+                            component={SavedMovies}
+                        />
+                        <ProtectedRoute
+                            exec path='/profile'
+                            loggedIn={loggedIn}
+                            updateProfile={updateProfile}
+                            updateUser={setCurrentUser}
+                            onLogout={onLogout}
+                            component={Profile}
+                        />
                         <Route path='/*'>
                             <NotFound
                                 makeMark={makeMark}
-
                             />
                         </Route>
                     </Switch>

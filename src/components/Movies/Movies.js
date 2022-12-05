@@ -7,10 +7,12 @@ import SearchForm from "../SearchForm/SearchForm.js";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import moviesApi from "../../utils/MoviesApi.js";
 import mainApi from "../../utils/MainApi.js";
-import Preloader from "../Preloader/Preloader.js"
+import Preloader from "../Preloader/Preloader.js";
+import { CurrentUserContext } from '../../contexts/CurrentUserContext.js';
 
 
 function Movies(props) {
+    const user = React.useContext(CurrentUserContext);
     const [movies, setMovies] = React.useState([]);
     const [moviesToShow, setMoviesToShow] = React.useState([]);
     const [filteredMovies, setFilteredMovies] = React.useState([]);
@@ -47,7 +49,6 @@ function Movies(props) {
         const slicedMovies = filteredMovies.slice(start, end);
         console.log(slicedMovies, filteredMovies, moviesToShow)
         setMoviesToShow(previosMovies => [...previosMovies, ...slicedMovies]);
-        setLoading(false);
         if (filteredMovies.length > moviesToShow.length) {
             console.log(filteredMovies.length, moviesToShow.length)
             setShowMoreButton(true);
@@ -78,7 +79,6 @@ function Movies(props) {
     }
 
     const findMovies = (request) => {
-        setLoading(true);
         if (onSlider) {
             getAllMoviesFromYaApi();
             setFilteredMovies(findInShort(request));
@@ -91,15 +91,11 @@ function Movies(props) {
         }
         loopWithSlice(0, props.moviesPerPage);
     }
-// useEffect(()=>{
-//         setMoviesToShow([]);
-//         setLoading(false);
-// },[filteredMovies])
-    // const savedMovie = (gotMovie) => {
-    //     const film = movies.find(movie => movie._id = gotMovie._id)
-    //     film.saved = !film.saved;
-    // }
 
+    useEffect(() => {
+        setLoading(false);
+    }, [moviesToShow]);
+    
     const handleShowMoreMovies = () => {
         loopWithSlice(props.moviesPerPage, props.moviesPerPage + props.addMovies);
         props.setMoviesPerPage(props.moviesPerPage + props.addMovies);
@@ -107,6 +103,7 @@ function Movies(props) {
     //----------------
     //=========================
     const handleFindFilm = (request) => {
+        setLoading(true);
         findMovies(request);
         console.log("but", request);
     };
@@ -114,6 +111,8 @@ function Movies(props) {
     const handleToggleSlider = () => {
         setOnSlider(!onSlider);
     };
+
+
 
     return (
         <main className="movies">
