@@ -9,7 +9,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 function Register({ onRegister, setRegState }) {
     //---------Error answer in registration-------------
     const [errMessage, setErrMessage] = useState('');
-    const expression=/[a-zA-Zа-яА-Я0-9- ]+?$/;
+    const expression = /[a-zA-Zа-яА-Я0-9- ]+?$/;
     let validForm = yup.object().shape({
         email: yup.string()
             .required("Поле E-mail не может быть пустым")
@@ -26,16 +26,7 @@ function Register({ onRegister, setRegState }) {
     const onSubmit = (registerData) => {
         onRegister(registerData)
             .then(() => {
-                // onLogin({ registerData.email, registerData.password })
-                //     .then(() => {
-                //         setRegState(true);
-                //     })
-                //     .catch((err) => {
-                //         setErrMessage('Что-то пошло не так! Попробуйте ещё раз.');
-                //         setRegState(false);
-                //     })
-                console.log (registerData);
-                // setRegState(true);
+                console.log("registered");
             })
             .catch((err) => {
                 setErrMessage('Что-то пошло не так! Попробуйте ещё раз.');

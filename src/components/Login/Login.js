@@ -26,12 +26,10 @@ function Login({ onLogin }) {
 
         onLogin(loginData)
             .then(() => {
-                // setRegState(true);
                 setErrMessage('OK!');
             })
             .catch((err) => {
                 setErrMessage('Что-то пошло не так! Попробуйте ещё раз.');
-                // setRegState(false);
             })
 
     }
@@ -82,12 +80,12 @@ function Login({ onLogin }) {
                     }>
                         {errors?.password && errors?.password?.message}
                     </span>
-                
+
                     <span className="login__compare-message">
-                    {errMessage}
-                </span>
+                        {errMessage}
+                    </span>
                 </div>
-                
+
                 <button
                     className={`login__button ${!isValid && 'login__button_disabled'}`}
                     disabled={!isValid}

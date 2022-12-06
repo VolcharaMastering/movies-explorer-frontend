@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 
 import React, { useEffect } from "react";
 
@@ -8,15 +9,16 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import moviesApi from "../../utils/MoviesApi.js";
 import mainApi from "../../utils/MainApi.js";
 import Preloader from "../Preloader/Preloader.js";
-import { CurrentUserContext} from '../../contexts/CurrentUserContext.js';
-import { FoundFilmsContext} from '../../contexts/FoundFilmsContext.js';
-import { SliderStateContext} from '../../contexts/SliderStateContext.js';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext.js';
 
 
 
 function Movies(props) {
     const user = React.useContext(CurrentUserContext);
     const [movies, setMovies] = React.useState([]);
+    const [start, setStart] = React.useState(0);
+    const [end, setEnd] = React.useState(0);
+    const [request, setRequest] = React.useState([]);
     const [moviesToShow, setMoviesToShow] = React.useState([]);
     const [filteredMovies, setFilteredMovies] = React.useState([]);
     const [onSlider, setOnSlider] = React.useState(false);
@@ -24,54 +26,57 @@ function Movies(props) {
     const [notFound, setNotFound] = React.useState(false);
     const [error, setError] = React.useState(false);
     const [showMoreButton, setShowMoreButton] = React.useState(false);
+    const [savedMovies, setSavedMovies] = React.useState([]);
 
     //=======creating an array of movies=======
-    const searchInput = React.useRef('');
 
+    const showedMovies = localStorage.getItem('showedMovies');
+    const foundMovies = localStorage.getItem('foundMovies');
+    const searchState = JSON.parse(localStorage.getItem('searchState'));
+    useEffect(() => {
+        if (foundMovies.length > 0) {
+            setMoviesToShow(JSON.parse(showedMovies));
+            setOnSlider(searchState.sliderState);
+            setFilteredMovies(JSON.parse(foundMovies));
+        }
+    }, []);
     const getAllMoviesFromYaApi = () => {
         moviesApi.getMovies()
             .then((data) => {
-                setMovies(data);
                 setError(false);
+                setMovies(data);
             })
             .catch((err) => {
                 setError(true);
             });
     }
-    const saveMovie = (savedMovie) => {
-        mainApi.setMovie(savedMovie)
+    const saveMovie = (saving) => {
+        mainApi.setMovie(saving)
             .then((data) => {
-                setMovies(data);
-                setError(false);
+                setSavedMovies(savedMovies.push(saving));
             })
             .catch((err) => {
                 setError(true);
             });
     }
 
-    function loopWithSlice(start, end) {
+    useEffect(() => {
         const slicedMovies = filteredMovies.slice(start, end);
-        console.log(slicedMovies, filteredMovies, moviesToShow)
         setMoviesToShow(previosMovies => [...previosMovies, ...slicedMovies]);
-        if (filteredMovies.length > moviesToShow.length) {
-            console.log(filteredMovies.length, moviesToShow.length)
-            setShowMoreButton(true);
-        } else {
-            console.log(filteredMovies.length, moviesToShow.length)
-            setShowMoreButton(false);
-        }
-    };
+    }, [filteredMovies, start, end]);
 
-    const findInAll = (request) => {
+    const findInAll = () => {
+        getAllMoviesFromYaApi();
         const filmsFound = movies.filter(film =>
             film.nameRU.toLowerCase().includes(request.toLowerCase()) ||
             film.nameEN.toLowerCase().includes(request.toLowerCase()) ||
             film.description.toLowerCase().includes(request.toLowerCase())
         );
         if (filmsFound.length === 0) { setNotFound(true) } else { setNotFound(false) };
-        return filmsFound;
+        setFilteredMovies(filmsFound);
     }
-    const findInShort = (request) => {
+    const findInShort = () => {
+        getAllMoviesFromYaApi();
         const filmsFound = movies.filter(film => (
             film.nameRU.toLowerCase().includes(request.toLowerCase()) ||
             film.nameEN.toLowerCase().includes(request.toLowerCase()) ||
@@ -79,52 +84,81 @@ function Movies(props) {
             film.duration <= 40
         );
         if (filmsFound.length === 0) { setNotFound(true) } else { setNotFound(false) };
-        return filmsFound;
-    }
-
-    const findMovies = (request) => {
-        if (onSlider) {
-            getAllMoviesFromYaApi();
-            setFilteredMovies(findInShort(request));
-            setMoviesToShow([]);
-        }
-        else {
-            getAllMoviesFromYaApi();
-            setFilteredMovies(findInAll(request));
-            setMoviesToShow([]);
-        }
-        loopWithSlice(0, props.moviesPerPage);
+        setFilteredMovies(filmsFound);
     }
 
     useEffect(() => {
+        if (request.length === 0) { return };
+        if (onSlider) {
+            setMoviesToShow([]);
+            findInShort();
+        }
+        else {
+            setMoviesToShow([]);
+            findInAll();
+        }
+        setStart(0);
+        setEnd(props.moviesPerPage);
+    }, [request, onSlider]);
+
+    useEffect(() => {
+        if (filteredMovies.length > moviesToShow.length) {
+            setShowMoreButton(true);
+        } else {
+            setShowMoreButton(false);
+        }
+        createStorage();
         setLoading(false);
     }, [moviesToShow]);
-    
+
+    const createStorage = () => {
+        localStorage.setItem('showedMovies', JSON.stringify(moviesToShow));
+        localStorage.setItem('foundMovies', JSON.stringify(filteredMovies));
+        const searchState = { 'request': request, 'sliderState': onSlider };
+        localStorage.setItem('searchState', JSON.stringify(searchState));
+    };
+
     const handleShowMoreMovies = () => {
-        loopWithSlice(props.moviesPerPage, props.moviesPerPage + props.addMovies);
+        setStart(props.moviesPerPage);
+        setEnd(props.moviesPerPage + props.addMovies)
         props.setMoviesPerPage(props.moviesPerPage + props.addMovies);
     };
     //----------------
+
     //=========================
     const handleFindFilm = (request) => {
-        setLoading(true);
-        findMovies(request);
-        console.log("but", request);
+        setRequest(request);
     };
 
     const handleToggleSlider = () => {
         setOnSlider(!onSlider);
     };
 
+    const handleSaveMovie = (savingMovie) => {
+        const saving = {
+            "country": savingMovie.country,
+            "director": savingMovie.director,
+            "duration": savingMovie.duration,
+            "year": savingMovie.year,
+            "description": savingMovie.description,
+            "image": `https://api.nomoreparties.co${savingMovie.image.url}`,
+            "trailerLink": savingMovie.trailerLink,
+            "thumbnail": `https://api.nomoreparties.co${savingMovie.image.formats.small.url}`,
+            "owner": user.id,
+            "movieId": savingMovie.id,
+            "nameRU": savingMovie.nameRU,
+            "nameEN": savingMovie.nameEN
+        };
+        console.log("got", savingMovie, "made", saving)
+        saveMovie(saving);
+    };
+
 
 
     return (
         <main className="movies">
-            <FoundFilmsContext.Provider value={moviesToShow}>
-            <SliderStateContext.Provider value={onSlider}>
             <section className="search-form">
                 <SearchForm
-                    searchInput={searchInput}
                     handleFindFilm={handleFindFilm}
                     onSlider={onSlider}
                     toggleSlider={handleToggleSlider}
@@ -144,11 +178,11 @@ function Movies(props) {
                                 moviesToRender={moviesToShow}
                                 moreMovies={handleShowMoreMovies}
                                 showMoreButton={showMoreButton}
+                                savedMovie={handleSaveMovie}
+                                savedMovies={savedMovies}
                             />
                 }
             </section>
-            </SliderStateContext.Provider>
-            </FoundFilmsContext.Provider>
         </main >
     );
 }

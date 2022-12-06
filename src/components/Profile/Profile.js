@@ -11,7 +11,7 @@ function Profile({ updateProfile, updateUser, onLogout }) {
     const user = React.useContext(CurrentUserContext);
 
     const [errMessage, setErrMessage] = React.useState('');
-    const expression=/[a-zA-Zа-яА-Я0-9- ]+?$/;
+    const expression = /[a-zA-Zа-яА-Я0-9- ]+?$/;
 
     let validForm = yup.object().shape({
         email: yup.string()
@@ -23,15 +23,12 @@ function Profile({ updateProfile, updateUser, onLogout }) {
     });
 
     const onSubmit = (userData) => {
-        console.log(userData)
         updateProfile(userData)
             .then(() => {
                 updateUser(userData);
-                console.log (userData);
             })
             .catch((err) => {
                 setErrMessage('Что-то пошло не так! Попробуйте ещё раз.');
-                console.log(errMessage)
             })
 
     }
@@ -47,7 +44,7 @@ function Profile({ updateProfile, updateUser, onLogout }) {
     });
     return (
         <form className='profile__form'
-        onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit(onSubmit)}
         >
             <div className='profile__box'>
                 <h2 className='profile__greeting'>Привет, {user.name}!</h2>
@@ -81,9 +78,9 @@ function Profile({ updateProfile, updateUser, onLogout }) {
                     }>
                         {errors?.email && errors?.email?.message}
                     </span>
-                <span className="profile__compare-message">
-                    {errMessage}
-                </span>
+                    <span className="profile__compare-message">
+                        {errMessage}
+                    </span>
                 </div>
                 <button
                     className={`profile__change ${!isValid && 'profile__change_disabled'}`}
@@ -97,7 +94,7 @@ function Profile({ updateProfile, updateUser, onLogout }) {
                     className="profile__exit"
                     type="button"
                     aria-label='exit user'
-                onClick={onLogout}
+                    onClick={onLogout}
                 >
                     Выйти из аккаунта
                 </p>

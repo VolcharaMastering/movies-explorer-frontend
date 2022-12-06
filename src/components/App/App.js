@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import '../../index.css';
 import './App.css';
 import React, { useEffect, useState } from "react";
@@ -73,9 +74,7 @@ function App() {
                 localStorage.setItem('jwt', res.token);
                 setLoggedIn(true);
                 history.push('/movies')
-                
-        console.log('from Auth. Go to movie', loggedIn)
-            })
+                            })
             .catch((err) => {
                 console.log(err);
             });
@@ -104,7 +103,6 @@ function App() {
         setLoggedIn(false);
         localStorage.removeItem('jwt');
         history.push('/');
-        console.log('logout', loggedIn)
     }
 
     const logging = () => {
@@ -125,7 +123,6 @@ const tokenCheck = () => {
     mainApi.authByToken(jwt)
         .then((res) => {
             setLoggedIn(true);
-            console.log('InTokenCheck', loggedIn);
             history.push(pathname);
         })
         .catch((err) => {
@@ -139,7 +136,6 @@ const tokenCheck = () => {
         tokenCheck();
         if (loggedIn) {
             logging();
-                console.log('checkToken', loggedIn)
         }
     }, [loggedIn]);
     return (

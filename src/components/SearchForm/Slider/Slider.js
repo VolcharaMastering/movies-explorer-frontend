@@ -1,15 +1,11 @@
 import React from 'react';
 import './Slider.css';
-import { SliderStateContext} from '../../../contexts/SliderStateContext.js';
-import { SearchStringContext } from '../../../contexts/SearchStringContext.js';
 
 const Slider = ({ isOn, onColor, toggleSlider }) => {
-    const contextSlider = React.useContext(SliderStateContext);
-    const contextString = React.useContext(SearchStringContext);
     return (
         <div className='search-slider'>
             <input
-                checked={(contextString.length>0)? contextSlider : isOn}
+                checked={isOn}
                 onChange={toggleSlider}
                 className="search-slider__checkbox"
                 id={`search-slider__new`}

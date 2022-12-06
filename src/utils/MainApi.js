@@ -15,6 +15,7 @@ class Api {
     }
 
     setMovie(settings) {
+        console.log("inApi", settings)
         return fetch(this._URL_CONFIG.url + 'movies', {
             headers: this._URL_CONFIG.headers,
             method: 'POST',
