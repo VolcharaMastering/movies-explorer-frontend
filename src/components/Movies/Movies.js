@@ -3,8 +3,7 @@
 import React, { useEffect } from "react";
 
 import './Movies.css'
-import SearchForm from "../SearchForm/SearchForm.js";
-// import Preloader from "../Preloader/Preloader.js";
+import SearchForm from "./SearchForm/SearchForm.js";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import moviesApi from "../../utils/MoviesApi.js";
 import mainApi from "../../utils/MainApi.js";
@@ -34,6 +33,7 @@ function Movies(props) {
     const foundMovies = localStorage.getItem('foundMovies');
     const searchState = JSON.parse(localStorage.getItem('searchState'));
     useEffect(() => {
+        getSavedMovies();
         if (foundMovies.length > 0) {
             setMoviesToShow(JSON.parse(showedMovies));
             setOnSlider(searchState.sliderState);
@@ -53,7 +53,27 @@ function Movies(props) {
     const saveMovie = (saving) => {
         mainApi.setMovie(saving)
             .then((data) => {
-                setSavedMovies(savedMovies.push(saving));
+                getSavedMovies();
+            })
+            .catch((err) => {
+                setError(true);
+            });
+    }
+    const delMovie = (movieId) => {
+        const delId=savedMovies.filter(saved => saved.movieId === movieId);
+        mainApi.delMovie([delId[0]._id])
+            .then((data) => {
+                getSavedMovies();
+            })
+            .catch((err) => {
+                setError(true);
+            });
+    }
+    const getSavedMovies = () => {
+        mainApi.getMovies()
+            .then((data) => {
+                setError(false);
+                setSavedMovies(data);
             })
             .catch((err) => {
                 setError(true);
@@ -65,6 +85,15 @@ function Movies(props) {
         setMoviesToShow(previosMovies => [...previosMovies, ...slicedMovies]);
     }, [filteredMovies, start, end]);
 
+    const addSaveToMovies=(filmsFound)=>{
+        filmsFound.forEach(film => {
+            if (savedMovies.find(saved => saved.movieId === film.id)) {
+                film.isSaved = true;
+            } else {
+                film.isSaved = false;
+            }
+        });
+    };
     const findInAll = () => {
         getAllMoviesFromYaApi();
         const filmsFound = movies.filter(film =>
@@ -72,7 +101,8 @@ function Movies(props) {
             film.nameEN.toLowerCase().includes(request.toLowerCase()) ||
             film.description.toLowerCase().includes(request.toLowerCase())
         );
-        if (filmsFound.length === 0) { setNotFound(true) } else { setNotFound(false) };
+        addSaveToMovies(filmsFound);
+        if (filmsFound.length === 0 && request.length >0) { setNotFound(true) } else { setNotFound(false) };
         setFilteredMovies(filmsFound);
     }
     const findInShort = () => {
@@ -83,12 +113,13 @@ function Movies(props) {
             film.description.toLowerCase().includes(request.toLowerCase())) &&
             film.duration <= 40
         );
-        if (filmsFound.length === 0) { setNotFound(true) } else { setNotFound(false) };
+        addSaveToMovies(filmsFound);
+        if (filmsFound.length === 0 && request.length >0) { setNotFound(true) } else { setNotFound(false) };
         setFilteredMovies(filmsFound);
     }
-
     useEffect(() => {
         if (request.length === 0) { return };
+        setLoading(true);
         if (onSlider) {
             setMoviesToShow([]);
             findInShort();
@@ -113,6 +144,7 @@ function Movies(props) {
 
     const createStorage = () => {
         localStorage.setItem('showedMovies', JSON.stringify(moviesToShow));
+        localStorage.setItem('savedMovies', JSON.stringify(savedMovies));
         localStorage.setItem('foundMovies', JSON.stringify(filteredMovies));
         const searchState = { 'request': request, 'sliderState': onSlider };
         localStorage.setItem('searchState', JSON.stringify(searchState));
@@ -134,11 +166,14 @@ function Movies(props) {
         setOnSlider(!onSlider);
     };
 
+    useEffect(() => {
+
+    }, [savedMovies])
     const handleSaveMovie = (savingMovie) => {
         const saving = {
             "country": savingMovie.country,
             "director": savingMovie.director,
-            "duration": savingMovie.duration,
+            "duration":savingMovie.duration,
             "year": savingMovie.year,
             "description": savingMovie.description,
             "image": `https://api.nomoreparties.co${savingMovie.image.url}`,
@@ -149,7 +184,6 @@ function Movies(props) {
             "nameRU": savingMovie.nameRU,
             "nameEN": savingMovie.nameEN
         };
-        console.log("got", savingMovie, "made", saving)
         saveMovie(saving);
     };
 
@@ -179,7 +213,7 @@ function Movies(props) {
                                 moreMovies={handleShowMoreMovies}
                                 showMoreButton={showMoreButton}
                                 savedMovie={handleSaveMovie}
-                                savedMovies={savedMovies}
+                                delMovie={delMovie}
                             />
                 }
             </section>

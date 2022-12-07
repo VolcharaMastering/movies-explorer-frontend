@@ -2,12 +2,12 @@
 import React from 'react';
 import { useForm } from "react-hook-form";
 import './SearchForm.css';
-import '../Movies/Movies.js';
+import '../SavedMovies.js';
 import Slider from './Slider/Slider.js';
 
 
 function SearchForm(props) {
-    const searchState = JSON.parse(localStorage.getItem('searchState'));
+    const searchState = localStorage.getItem('savedSearchState') ? JSON.parse(localStorage.getItem('savedSearchState')) : '';
     const savedRequest = searchState.request;
     const {
         register,

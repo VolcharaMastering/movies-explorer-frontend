@@ -46,17 +46,6 @@
     opacity: 0; */
     z-index: 1;
 }
-
-.movies-card__save-position {
-    position: absolute;
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.5s, visibility 0.5s;
-    top: 14px;
-    right: 14px;
-    z-index: 4;
-    margin: 0;
-}
 .movies-card__saved-position {
     position: absolute;
     transition: opacity 0.5s;
@@ -66,33 +55,10 @@
     margin: 0;
 }
 
-.movies-card__save {
-    width: 72px;
-    height: 21px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    color: inherit;
-    font-size: 10px;
-    font-weight: 400;
-    border-radius: 10px;
-    background-color: #313131;
-    margin: 0;
-}
-
-.movies-card__saved{
-    background-image: url(../../images/saved.svg);
-    width: 21px;
-    height: 21px;
-    border: none;
-    background-color: transparent;
-    z-index: 4;
-    margin: 0;
-    content: '';
-}
 .movies-card__unsave{
-    background-image: url(../../images/unsave.svg);
+    border: none;
+    background: none;
+    background-image: url(../../../images/unsave.svg);
     width: 21px;
     height: 21px;
     margin: 0;
@@ -100,38 +66,6 @@
     content: '';
 }
 
-.movies-card__image-link .movies-card__save-position{
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.5s, visibility 0.5s;
-    cursor: pointer;
-}
-.movies-card__image-link +.movies-card__save-position{
-    visibility: visible;
-    opacity: 1;
-    cursor: pointer;
-}
-/* .movies-card__image + .movies-card__save-position{
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.5s, visibility 0.5s;
-    cursor: pointer;
-}
-.movies-card__image  + .movies-card__save-position{
-    visibility: visible;
-    opacity: 1;
-    cursor: pointer;
-} */
-/* .movies-card:hover + .movies-card__save-position{
-    visibility: visible;
-    cursor: pointer;
-    opacity: 1;
-} */
-.movies-card__save-position:hover {
-    visibility: visible;
-    opacity: 0.6;
-    cursor: pointer;
-}
 .movies-card__saved-position:hover {
     opacity: 0.6;
     cursor: pointer;

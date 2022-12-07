@@ -4,6 +4,7 @@ import MoviesCard from "../MoviesCard/MoviesCard.js";
 
 function MoviesCardList(props) {
 
+    // console.log(props.moviesToRender)
     return (
         <>
             <div className='movies-list__box'>
@@ -12,20 +13,11 @@ function MoviesCardList(props) {
                         <MoviesCard
                             key={movie._id}
                             movie={movie}
-                            savedMovie={props.savedMovie}
                             delMovie={props.delMovie}
                         />
                     ))
                     }
                 </section>
-            </div>
-            <div className='movies-list__more'>
-                <div
-                    className={`movies-list__more-button 
-                ${props.showMoreButton ? 'movies-list__more-button_show' : ''}
-                `}
-                    onClick={props.moreMovies}
-                >Ещё</div>
             </div>
         </>
     )

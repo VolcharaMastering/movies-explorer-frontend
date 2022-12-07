@@ -2,20 +2,9 @@ import React from "react";
 import './MoviesCard.css'
 
 function MoviesCard(props) {
-    const [like, setLike] = React.useState(props.movie.isSaved);
-    const handleToggleMovie = () => {
-        if (props.movie.isSaved) {
-            setLike(false);
-            props.movie.isSaved =false;
-            props.delMovie(props.movie.id);
-        } else {
-            setLike(true);
-            props.movie.isSaved =true;
-            props.savedMovie(props.movie);
-        }
-
+    const handleDelete = () => {
+        props.delMovie(props.movie._id);
     }
-    const pathname = window.location.pathname;
     return (
         <article
             className="movies-card">
@@ -25,25 +14,17 @@ function MoviesCard(props) {
                     target="_blank" rel="noreferrer">
                     <img
                         className="movies-card__image"
-                        src={`https://api.nomoreparties.co${props.movie.image.url}`}
+                        src={props.movie.image}
                         alt={`Постер к фильму: ${props.movie.nameRU}`}
                     />
                 </a>
-                <div className={
-                    `${(like && pathname !== '/saved-movies') ?
-                        'movies-card__saved-position' : 'movies-card__save-position'}`
-                }>
+                <div className='movies-card__save-position'>
                     <button
-                        className={
-                            pathname !== '/saved-movies' ?
-                                (`${like ? 'movies-card__saved' : 'movies-card__save'}`) :
-                                'movies-card__unsave'
-                        }
+                        className='movies-card__unsave'
                         type="button"
-                        onClick={handleToggleMovie}
+                        onClick={handleDelete}
                         aria-label="Сохранить"
                     >
-                        {`${like ? '' : 'Сохранить'}`}
                     </button>
                 </div>
             </div>
