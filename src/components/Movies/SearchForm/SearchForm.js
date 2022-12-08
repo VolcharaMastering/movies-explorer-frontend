@@ -7,8 +7,12 @@ import Slider from './Slider/Slider.js';
 
 
 function SearchForm(props) {
-    const searchState = JSON.parse(localStorage.getItem('searchState'));
-    const savedRequest = searchState.request;
+    let savedRequest = '';
+    const searchState = localStorage.getItem('searchState');
+    if (!searchState){
+        savedRequest = '';
+    }else{savedRequest = JSON.parse(searchState).request}
+    
     const {
         register,
         formState: { errors },

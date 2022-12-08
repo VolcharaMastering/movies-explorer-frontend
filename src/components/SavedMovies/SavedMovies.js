@@ -10,20 +10,34 @@ import Preloader from "../Preloader/Preloader.js";
 
 function SavedMovies(props) {
     const [movies, setMovies] = React.useState([]);
+    const [moviesToShow, setMoviesToShow] = React.useState([]);
     const [request, setRequest] = React.useState([]);
     const [filteredMovies, setFilteredMovies] = React.useState(localStorage.getItem('foundSavedMovies') || []);
     const [onSlider, setOnSlider] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
     const [notFound, setNotFound] = React.useState(false);
     const [error, setError] = React.useState(false);
-    const [renderFlag, setRenderFlag] = React.useState(false);
+    // const [renderFlag, setRenderFlag] = React.useState(false);
 
-    //=======creating an array of movies=======
-
+    //=======check movies from localstorage or maindb=======
     const foundMovies = JSON.parse(localStorage.getItem('foundSavedMovies'));
     const searchState = JSON.parse(localStorage.getItem('savedSearchState'));
 
-    console.log(foundMovies, searchState);
+    useEffect(() => {
+        getSavedMovies();
+        if (!foundMovies || foundMovies.length === 0) {
+            setMoviesToShow(movies);
+        }
+        else {
+            if (!searchState.sliderState) { setOnSlider(searchState.sliderState) };
+            setFilteredMovies(foundMovies);
+            setMoviesToShow(foundMovies);
+        };
+    }, []);
+    /////------------------------------------------------------------------///////
+
+
+    ///---------database cals---------------////////
     const getSavedMovies = () => {
         mainApi.getMovies()
             .then((data) => {
@@ -34,22 +48,11 @@ function SavedMovies(props) {
                 setError(true);
             });
     }
-
-    useEffect(() => {
-
-        if (!foundMovies && foundMovies.length > 0) {
-            if (!searchState.sliderState) { setOnSlider(searchState.sliderState) };
-            setMovies(foundMovies);
-            console.log(foundMovies, searchState);
-        } else {
-            getSavedMovies();
-        }
-    }, []);
     const delMovie = (movieId) => {
         mainApi.delMovie(movieId)
             .then((data) => {
                 if (!foundMovies) {
-                    setMovies(filteredMovies.filter(film => film.movieId !== movieId))
+                    setMoviesToShow(filteredMovies.filter(film => film.movieId !== movieId))
                 } else { getSavedMovies(); }
 
             })
@@ -57,75 +60,83 @@ function SavedMovies(props) {
                 setError(true);
             });
     }
+    /////------------------------------------------------------------------///////
+    // console.log(foundMovies, searchState);
 
-
-    const findInAll = () => {
-        getSavedMovies();
-        setFilteredMovies([]);
-        const filmsFound = movies.filter(film =>
-            film.nameRU.toLowerCase().includes(request.toLowerCase()) ||
-            film.nameEN.toLowerCase().includes(request.toLowerCase()) ||
-            film.description.toLowerCase().includes(request.toLowerCase())
-        );
-        if (filmsFound.length === 0 && request.length > 0) { setNotFound(true) } else { setNotFound(false) };
-        setFilteredMovies(filmsFound);
-        setMovies(filmsFound);
-        setRenderFlag(!renderFlag);
-    }
-    const findInShort = () => {
-        getSavedMovies();
-        setFilteredMovies([]);
-        const filmsFound = movies.filter(film => (
-            film.nameRU.toLowerCase().includes(request.toLowerCase()) ||
-            film.nameEN.toLowerCase().includes(request.toLowerCase()) ||
-            film.description.toLowerCase().includes(request.toLowerCase())) &&
-            film.duration <= 40
-        );
-        if (filmsFound.length === 0 && request.length > 0) { setNotFound(true) } else { setNotFound(false) };
-        setFilteredMovies(filmsFound);
-        setMovies(filmsFound);
-        setRenderFlag(!renderFlag);
-    }
+    ///-----------render movies -----------////
     useEffect(() => {
-        if (!request || request.length === 0) {
-            console.log("return"); return
-        };
-        setLoading(true);
-        if (onSlider) {
-            findInShort();
-            console.log("short", movies)
-        }
-        else {
-            findInAll();
-            console.log("long", movies)
-        }
-    }, [request, onSlider]);
-
-    useEffect(() => {
+        setMoviesToShow(movies);
         createStorage();
         setLoading(false);
-    }, [renderFlag]);
+    }, [movies]);
+    /////------------------------------------------------------------------///////
+
+   ////------------find process------------/////////////
+   const findInShort = () => {
+    // getSavedMovies();
+    // setFilteredMovies([]);
+    const filmsFound = movies.filter(film => (
+        film.nameRU.toLowerCase().includes(request.toLowerCase()) ||
+        film.nameEN.toLowerCase().includes(request.toLowerCase()) ||
+        film.description.toLowerCase().includes(request.toLowerCase())) &&
+        film.duration <= 40
+    );
+    if (filmsFound.length === 0 && request.length > 0) { setNotFound(true) } else { setNotFound(false) };
+    setFilteredMovies(filmsFound);
+    setMoviesToShow(filmsFound);
+    // setRenderFlag(!renderFlag);
+}
+
+const findInAll = () => {
+    // getSavedMovies();
+    // setFilteredMovies([]);
+    const filmsFound = movies.filter(film =>
+        film.nameRU.toLowerCase().includes(request.toLowerCase()) ||
+        film.nameEN.toLowerCase().includes(request.toLowerCase()) ||
+        film.description.toLowerCase().includes(request.toLowerCase())
+    );
+    if (filmsFound.length === 0 && request.length > 0) { setNotFound(true) } else { setNotFound(false) };
+    setFilteredMovies(filmsFound);
+    setMoviesToShow(filmsFound);
+    // setRenderFlag(!renderFlag);
+}
 
 
-    const createStorage = () => {
-        localStorage.setItem('foundSavedMovies', JSON.stringify(filteredMovies));
-        // console.log('filteredMovies',filteredMovies);
-        const searchState = { 'savedRequest': request, 'sliderState': onSlider };
-        console.log('searchState',searchState);
-        localStorage.setItem('savedSearchState', JSON.stringify(searchState));
-        
-        console.log(localStorage.getItem('savedSearchState'));
-        console.log(localStorage.getItem('foundSavedMovies'));
+useEffect(() => {
+    if (!request || request.length === 0) {
+        console.log("return"); return
     };
+    setLoading(true);
+    if (onSlider) {
+        setMoviesToShow([]);
+        findInShort();
+    }
+    else {
+        setMoviesToShow([]);
+        findInAll();
+    }
+}, [request, onSlider]);
+/////------------------------------------------------------------------///////
+const createStorage = () => {
+    localStorage.setItem('foundSavedMovies', JSON.stringify(filteredMovies));
+    const searchState = { 'savedRequest': request, 'sliderState': onSlider };
+    localStorage.setItem('savedSearchState', JSON.stringify(searchState));
 
-    //=========================
-    const handleFindFilm = (request) => {
-        setRequest(request);
-    };
+    // console.log(localStorage.getItem('savedSearchState'));
+    // console.log(localStorage.getItem('foundSavedMovies'));
+};
 
-    const handleToggleSlider = () => {
-        setOnSlider(!onSlider);
-    };
+
+////--------- reaction on buttons click-----------//////
+const handleFindFilm = (request) => {
+    setRequest(request);
+};
+
+const handleToggleSlider = () => {
+    setOnSlider(!onSlider);
+};
+/////------------------------------------------------------------------///////
+
     // console.log(movies, 'filter', filteredMovies, 'request',request , 'onSlider', onSlider)
     return (
         <main className="saved-movies">
@@ -147,8 +158,10 @@ function SavedMovies(props) {
                             <h3 className="movie__info-label">Подождите немного и попробуйте ещё раз </h3>
                         </> :
                             <MoviesCardList
-                                moviesToRender={movies}
+                                moviesToRender={moviesToShow}
+                                savedMovies={movies}
                                 delMovie={delMovie}
+                                getSavedMovies={getSavedMovies}
                             />
                 }
             </section>

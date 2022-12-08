@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import './MoviesCard.css'
 
 function MoviesCard(props) {
-    const [like, setLike] = React.useState(props.movie.isSaved);
+    const [like, setLike] = React.useState(false);
     const handleToggleMovie = () => {
         if (props.movie.isSaved) {
             setLike(false);
@@ -15,6 +15,10 @@ function MoviesCard(props) {
         }
 
     }
+    useEffect(()=>{
+        setLike(props.movie.isSaved)
+    },[props.movie.isSaved])
+    // console.log("name", props.movie.nameRU, "state", props.movie.isSaved )
     const pathname = window.location.pathname;
     return (
         <article

@@ -1,16 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import './MoviesCardList.css'
 import MoviesCard from "../MoviesCard/MoviesCard.js";
 
 function MoviesCardList(props) {
+    const [renderingMovie, setRenderingMovie] = React.useState([]);
+    useEffect(() => {
 
+        props.getSavedMovies();
+    }, [])
+
+    useEffect(() => {
+        props.moviesToRender.forEach(film => {
+            if (props.savedMovies.find(saved => saved.movieId === film.id)) {
+                film.isSaved = true;
+            } else {
+                film.isSaved = false;
+            }
+        });
+        setRenderingMovie(props.moviesToRender);
+    }, [props.savedMovies])
     return (
         <>
             <div className='movies-list__box'>
                 <section className="movies-list__list">
-                    {props.moviesToRender.map((movie) => (
+                    {renderingMovie.map((movie) => (
                         <MoviesCard
-                            key={movie._id}
+                            key={movie.id}
                             movie={movie}
                             savedMovie={props.savedMovie}
                             delMovie={props.delMovie}
