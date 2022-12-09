@@ -10,6 +10,6 @@ frontend for diplom movie site
 
 IP 51.250.83.240
 
-Frontend https://api.movie-diplom-vmstr.nomoredomains.icu
+Frontend https://movie-diplom-vmstr.nomoredomains.icu
 
 PullRequest https://github.com/VolcharaMastering/movies-explorer-frontend/pull/2 
