@@ -112,11 +112,11 @@
     margin: 0;
 }
 
-.profile__change_disabled{
+.profile__change_disabled {
     pointer-events: none;
-    border:  1px solid rgba(230, 95, 95, 0.2);
-    background-color: rgba(230, 95, 95,0);
-    color: rgba(230, 95, 95,20%);
+    border: 1px solid rgba(230, 95, 95, 0.2);
+    background-color: rgba(230, 95, 95, 0);
+    color: rgba(230, 95, 95, 20%);
 }
 
 @media screen and (max-width: 850px) {

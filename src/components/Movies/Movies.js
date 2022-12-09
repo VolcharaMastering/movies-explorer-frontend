@@ -35,6 +35,7 @@ function Movies(props) {
     useEffect(() => {
         getAllMoviesFromYaApi();
         if (!foundMovies || foundMovies.length === 0) {
+            setError(false);
             return;
         }
         else {
@@ -91,9 +92,7 @@ function Movies(props) {
     ///-----------render movies -----------////
     useEffect(() => {
         const slicedMovies = filteredMovies.slice(start, end);
-        // addSaveToMovies(slicedMovies);
         setMoviesToShow(previosMovies => [...previosMovies, ...slicedMovies]);
-        // 
     }, [filteredMovies, start, end]);
 
     useEffect(() => {
@@ -110,7 +109,6 @@ function Movies(props) {
     ////------------find process------------/////////////
 
     const findInShort = () => {
-        // getAllMoviesFromYaApi();
         const filmsFound = movies.filter(film => (
             film.nameRU.toLowerCase().includes(request.toLowerCase()) ||
             film.nameEN.toLowerCase().includes(request.toLowerCase()) ||
@@ -131,10 +129,8 @@ function Movies(props) {
     }
 
     useEffect(() => {
-        console.log("searchEffect", request)
         if (request.length === 0) { return };
         setLoading(true);
-        // getAllMoviesFromYaApi();
         if (onSlider) {
             setMoviesToShow([]);
             findInShort();
@@ -169,7 +165,6 @@ function Movies(props) {
 
     const handleToggleSlider = () => {
         setOnSlider(!onSlider);
-        console.log("Slider")
     };
     /////------------------------------------------------------------------///////
 
@@ -193,7 +188,7 @@ function Movies(props) {
         saveMovie(saving);
 
     };
-    
+
     /////------------------------------------------------------------------///////
 
 

@@ -1,61 +1,61 @@
-.search-slider{
-    display: flex;
-    width: 167px;
-    justify-content: flex-start;
-    align-items: center;
-    font-size: 13px;
-    font-weight: 400;
-    margin: 15px 0 0;
+.search-slider {
+  display: flex;
+  width: 167px;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 400;
+  margin: 15px 0 0;
 }
 
 @media screen and (max-width: 649px) {
-  .search-slider{
-      margin-top: 22px;
-      font-size: 11px;
+  .search-slider {
+    margin-top: 22px;
+    font-size: 11px;
   }
-} 
+}
 
 .search-slider__checkbox {
-    height: 0;
-    width: 0;
-    visibility: hidden;
-  }
-  
-  .search-slider__label {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    cursor: pointer;
-    width: 36px;
-    height: 20px;
-    background: #EBEBEB;
-    border-radius: 10px;
-    position: relative;
-    transition: background-color .2s;
-  }
-  
-  .search-slider__label .search-slider__button {
-    content: '';
-    position: absolute;
-    top: 2px;
-    left: 1px;
-    width: 16px;
-    height: 16px;
-    border-radius: 16px;
-    transition: 0.2s;
-    background: #fff;
-    box-shadow: 0 0 2px 0 rgba(10, 10, 10, 0.29);
-  }
-  
-  .search-slider__checkbox:checked + .search-slider__label .search-slider__button {
-    left: calc(100% - 2px);
-    transform: translateX(-100%);
-  }
-  
-  .search-slider__label:active .search-slider__button {
-    width: 20px;
-  }
+  height: 0;
+  width: 0;
+  visibility: hidden;
+}
 
-  .search-slider__text{
-    margin-left: 14px;
-  }
+.search-slider__label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  width: 36px;
+  height: 20px;
+  background: #EBEBEB;
+  border-radius: 10px;
+  position: relative;
+  transition: background-color .2s;
+}
+
+.search-slider__label .search-slider__button {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 1px;
+  width: 16px;
+  height: 16px;
+  border-radius: 16px;
+  transition: 0.2s;
+  background: #fff;
+  box-shadow: 0 0 2px 0 rgba(10, 10, 10, 0.29);
+}
+
+.search-slider__checkbox:checked+.search-slider__label .search-slider__button {
+  left: calc(100% - 2px);
+  transform: translateX(-100%);
+}
+
+.search-slider__label:active .search-slider__button {
+  width: 20px;
+}
+
+.search-slider__text {
+  margin-left: 14px;
+}

@@ -8,35 +8,39 @@
     font-weight: 500;
     margin: 0;
 }
-.header_replace{
+
+.header_replace {
     height: 100%;
     align-items: flex-end;
     margin-top: 40px;
 }
 
-.header__logo-box{
+.header__logo-box {
     width: 38px;
     height: 38px;
     display: flex;
     margin: 0 0 0 70px;
 }
+
 @media screen and (max-width: 1200px) {
     .header__logo-box {
         margin-left: 4%;
     }
 }
 
-.header__logo-box_replace{
+.header__logo-box_replace {
     width: 396px;
     display: flex;
     justify-content: flex-start;
     margin: 0;
 }
+
 @media screen and (max-width: 1200px) {
     .header__logo-box_replace {
         margin: 0;
     }
 }
+
 @media screen and (max-width: 649px) {
     .header__logo-box_replace {
         justify-content: center;

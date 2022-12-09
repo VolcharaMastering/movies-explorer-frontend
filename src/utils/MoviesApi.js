@@ -18,7 +18,7 @@ class MovieApi {
             'headers': {
                 "Accept": "application/json",
                 "Content-Type": "application/json",
-              },
+            },
         })
             .then(this._checkResponse);
     }

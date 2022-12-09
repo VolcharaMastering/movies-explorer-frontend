@@ -97,11 +97,12 @@
         margin-top: 267px;
     }
 }
-.login__button_disabled{
+
+.login__button_disabled {
     pointer-events: none;
-    border:  1px solid rgba(230, 95, 95, 0.2);
-    background-color: rgba(230, 95, 95,0);
-    color: rgba(230, 95, 95,20%);
+    border: 1px solid rgba(230, 95, 95, 0.2);
+    background-color: rgba(230, 95, 95, 0);
+    color: rgba(230, 95, 95, 20%);
 }
 
 .login__button:hover {

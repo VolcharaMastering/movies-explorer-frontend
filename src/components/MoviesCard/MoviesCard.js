@@ -6,19 +6,18 @@ function MoviesCard(props) {
     const handleToggleMovie = () => {
         if (props.movie.isSaved) {
             setLike(false);
-            props.movie.isSaved =false;
+            props.movie.isSaved = false;
             props.delMovie(props.movie.id);
         } else {
             setLike(true);
-            props.movie.isSaved =true;
+            props.movie.isSaved = true;
             props.savedMovie(props.movie);
         }
 
     }
-    useEffect(()=>{
+    useEffect(() => {
         setLike(props.movie.isSaved)
-    },[props.movie.isSaved])
-    // console.log("name", props.movie.nameRU, "state", props.movie.isSaved )
+    }, [props.movie.isSaved])
     const pathname = window.location.pathname;
     return (
         <article
@@ -33,23 +32,18 @@ function MoviesCard(props) {
                         alt={`Постер к фильму: ${props.movie.nameRU}`}
                     />
                 </a>
-                <div className={
-                    `${(like && pathname !== '/saved-movies') ?
-                        'movies-card__saved-position' : 'movies-card__save-position'}`
-                }>
-                    <button
-                        className={
-                            pathname !== '/saved-movies' ?
-                                (`${like ? 'movies-card__saved' : 'movies-card__save'}`) :
-                                'movies-card__unsave'
-                        }
-                        type="button"
-                        onClick={handleToggleMovie}
-                        aria-label="Сохранить"
-                    >
-                        {`${like ? '' : 'Сохранить'}`}
-                    </button>
-                </div>
+                <button
+                    className={
+                        pathname !== '/saved-movies' ?
+                            (`${like ? 'movies-card__saved' : 'movies-card__save'}`) :
+                            'movies-card__unsave'
+                    }
+                    type="button"
+                    onClick={handleToggleMovie}
+                    aria-label={`${like ? 'Удалить' : 'Сохранить'}`}
+                >
+                    {`${like ? '' : 'Сохранить'}`}
+                </button>
             </div>
             <div className="movies-card__caption">
                 <h2 className="movies-card__name">{props.movie.nameRU}</h2>

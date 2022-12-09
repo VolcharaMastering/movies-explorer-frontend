@@ -65,7 +65,7 @@ function App() {
         setNotFoundPage(val);
     };
 
-    
+
 
     //--------Auth functionality-------------
     function onLogin(data) {
@@ -74,7 +74,7 @@ function App() {
                 localStorage.setItem('jwt', res.token);
                 setLoggedIn(true);
                 history.push('/movies')
-                            })
+            })
             .catch((err) => {
                 console.log(err);
             });
@@ -83,7 +83,7 @@ function App() {
     function onRegister(data) {
         return mainApi.register(data)
             .then(() => {
-                onLogin({email: data.email, password: data.password});
+                onLogin({ email: data.email, password: data.password });
             })
             .catch((err) => {
                 console.log(err);
@@ -114,30 +114,39 @@ function App() {
                 console.log(err);
             })
     }
-//-----------Check token-------------
+    //-----------Check token-------------
 
-const tokenCheck = () => {
-    const jwt = localStorage.getItem('jwt');
-    if (!jwt) { return };
+    const tokenCheck = () => {
+        const jwt = localStorage.getItem('jwt');
+        if (!jwt) { return };
 
-    mainApi.authByToken(jwt)
-        .then((res) => {
-            setLoggedIn(true);
-            history.push(pathname);
-        })
-        .catch((err) => {
-            console.log(err);
-        });
+        mainApi.authByToken(jwt)
+            .then((res) => {
+                setLoggedIn(true);
+                history.push(pathname);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
 
-};
-//------------------------------------------------------------------
+    };
+    //------------------------------------------------------------------
 
     useEffect(() => {
         tokenCheck();
         if (loggedIn) {
             logging();
         }
+        // if ((loggedIn && pathname==='/signin') || (loggedIn && pathname === '/signup')){
+        //     history.push('/movies');
+        // }
     }, [loggedIn]);
+
+    useEffect(() => {
+        if ((loggedIn && pathname === '/signin') || (loggedIn && pathname === '/signup')) {
+            history.push('/movies');
+        }
+    }, [pathname, history, loggedIn]);
     return (
         <div className='page'>
             <CurrentUserContext.Provider value={currentUser}>
@@ -148,7 +157,7 @@ const tokenCheck = () => {
                     {notFoundPage ? null :
                         <Header
                             changedWidth={changedWidth}
-                        loggedIn={loggedIn}
+                            loggedIn={loggedIn}
                         />}
 
                     <Switch>

@@ -1,8 +1,9 @@
-.footer{
+.footer {
     width: 100%;
-    
+
 }
-.footer__box{
+
+.footer__box {
     max-width: 1140px;
     display: flex;
     flex-direction: column;
@@ -23,7 +24,7 @@
     }
 }
 
-.footer__text{
+.footer__text {
     height: 37px;
     text-align: center;
     color: #8B8B8B;
@@ -31,19 +32,19 @@
 }
 
 @media screen and (max-width: 950px) {
-    .footer__text{
+    .footer__text {
         margin-top: 23px;
     }
 }
 
 @media screen and (max-width: 550px) {
-    .footer__text{
+    .footer__text {
         font-size: 12px;
         margin-top: 5px;
     }
 }
 
-.footer__form{
+.footer__form {
     max-width: 1440px;
     height: 54px;
     border-top: 1px solid #424242;
@@ -55,7 +56,7 @@
 }
 
 @media screen and (max-width: 400px) {
-    .footer__form{
+    .footer__form {
         height: 126px;
         flex-flow: column wrap;
         justify-content: flex-start;
@@ -64,7 +65,7 @@
 }
 
 @media screen and (max-width: 400px) {
-    .footer__links-form{
+    .footer__links-form {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -74,30 +75,31 @@
 }
 
 @media screen and (max-width: 400px) {
-    .footer__label{
+    .footer__label {
         order: 2;
         margin: 16px 0 0;
     }
 }
 
-.footer__link{
+.footer__link {
     text-decoration: none;
     color: white;
     transition: opacity 0.5s linear;
     margin: 0;
 }
-.footer__link:hover{
+
+.footer__link:hover {
     opacity: 60%;
     cursor: pointer;
     text-decoration: underline;
 }
 
-.footer__link:last-of-type{
+.footer__link:last-of-type {
     margin-left: 20px;
 }
 
 @media screen and (max-width: 400px) {
-    .footer__link:last-of-type{
+    .footer__link:last-of-type {
         margin: 14px 0;
     }
 }

@@ -5,9 +5,9 @@ import './NotFound.css';
 function NotFound(props) {
     const history = useHistory();
     props.makeMark(true);
-    const goBack=()=>{
+    const goBack = () => {
         history.goBack();
-         props.makeMark(false);
+        props.makeMark(false);
     }
     return (
         <section className="not-found">
