@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import { useForm } from "react-hook-form";
 import './SearchForm.css';
@@ -7,12 +6,6 @@ import Slider from './Slider/Slider.js';
 
 
 function SearchForm(props) {
-    let savedRequest = '';
-    const searchState = localStorage.getItem('savedSearchState');
-    if (!searchState) {
-        savedRequest = '';
-    } else { savedRequest = JSON.parse(searchState).request }
-
     const {
         register,
         formState: { errors },
@@ -32,7 +25,9 @@ function SearchForm(props) {
                     {...register("search", {
                         required: "Нужно ввести ключевое слово",
                     })}
-                    defaultValue={savedRequest}
+                    defaultValue={!localStorage.getItem('savedSearchState') ? '' :
+                        JSON.parse(localStorage.getItem('savedSearchState')).savedRequest
+                    }
                     className='search-form__input'
                     placeholder="Фильм"
                     id="search-form"

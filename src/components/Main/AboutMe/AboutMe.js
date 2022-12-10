@@ -1,4 +1,3 @@
-// import { Link } from 'react-router-dom';
 import './AboutMe.css';
 import '../Main.css';
 

@@ -63,7 +63,6 @@
 @media screen and (max-width: 679px) {
     .aboutme__text-box {
         grid-row: 2;
-        /* margin-top: 42px; */
     }
 }
 

@@ -1,12 +1,10 @@
 
 import React, { useEffect } from "react";
-
 import './SavedMovies.css'
 import SearchForm from "./SearchForm/SearchForm.js";
 import MoviesCardList from "./MoviesCardList/MoviesCardList.js";
 import mainApi from "../../utils/MainApi.js";
 import Preloader from "../Preloader/Preloader.js";
-
 
 function SavedMovies(props) {
     const [movies, setMovies] = React.useState([]);
@@ -17,22 +15,22 @@ function SavedMovies(props) {
     const [loading, setLoading] = React.useState(false);
     const [notFound, setNotFound] = React.useState(false);
     const [error, setError] = React.useState(false);
-    // const [renderFlag, setRenderFlag] = React.useState(false);
+    const [showSaved, setShowSaved] = React.useState(false);
 
     //=======check movies from localstorage or maindb=======
     const foundMovies = localStorage.getItem('foundSavedMovies');
     const searchState = localStorage.getItem('savedSearchState');
     useEffect(() => {
-        if (!foundMovies || JSON.parse(foundMovies).length === 0) {
+        if (!searchState) {
             getSavedMovies();
         }
         else {
+            setShowSaved(true);
+            setRequest(JSON.parse(searchState).savedRequest);
             setOnSlider(JSON.parse(searchState).sliderState);
-            setFilteredMovies(JSON.parse(foundMovies));
         };
     }, []);
     /////------------------------------------------------------------------///////
-
 
     ///---------database cals---------------////////
     const getSavedMovies = () => {
@@ -45,13 +43,14 @@ function SavedMovies(props) {
                 setError(true);
             });
     }
-    const delMovie = (movieId) => {
-        mainApi.delMovie(movieId)
-            .then((data) => {
-                if (!filteredMovies || filteredMovies.length === 0) {
+    const delMovie = (id) => {
+        mainApi.delMovie(id)
+            .then(() => {
+                if (filteredMovies.length === 0) {
                     getSavedMovies();
                 } else {
-                    setMoviesToShow(filteredMovies.filter(film => film.movieId !== movieId));
+                    setFilteredMovies(filteredMovies.filter(film => film._id !== id));
+                    setMoviesToShow(filteredMovies.filter(film => film._id !== id));
                 }
 
             })
@@ -63,7 +62,7 @@ function SavedMovies(props) {
 
     ///-----------render movies -----------////
     useEffect(() => {
-        if (!filteredMovies || filteredMovies.length === 0) {
+        if (filteredMovies.length === 0) {
             setMoviesToShow(movies);
         } else {
             setMoviesToShow(filteredMovies);
@@ -94,12 +93,29 @@ function SavedMovies(props) {
         if (filmsFound.length === 0 && request.length > 0) { setNotFound(true) } else { setNotFound(false) };
         setFilteredMovies(filmsFound);
     }
-
+    const findOnlyShort = () => {
+        const filmsFound = movies.filter(film =>
+            film.duration <= 40
+        );
+        if (filmsFound.length === 0) { setNotFound(true) } else { setNotFound(false) };
+        setFilteredMovies(filmsFound);
+    }
 
     useEffect(() => {
-        if (!request || request.length === 0) {
-            return
-        };
+        if (request.length === 0 && !showSaved && onSlider) {
+            findOnlyShort();
+            return;
+        }
+        if (request.length === 0 && !showSaved && !onSlider) {
+            setMoviesToShow(movies);
+            return;
+        }
+        if (showSaved) {
+            setLoading(true);
+            setShowSaved(false);
+            setFilteredMovies(JSON.parse(foundMovies));
+            return;
+        }
         setLoading(true);
         getSavedMovies();
         if (onSlider) {
@@ -114,10 +130,11 @@ function SavedMovies(props) {
     /////------------------------------------------------------------------///////
     const createStorage = () => {
         localStorage.setItem('foundSavedMovies', JSON.stringify(filteredMovies));
-        const searchState = { 'savedRequest': request, 'sliderState': onSlider };
-        localStorage.setItem('savedSearchState', JSON.stringify(searchState));
+        if (request.length > 0) {
+            const searchState = { 'savedRequest': request, 'sliderState': onSlider };
+            localStorage.setItem('savedSearchState', JSON.stringify(searchState));
+        }
     };
-
 
     ////--------- reaction on buttons click-----------//////
     const handleFindFilm = (request) => {
@@ -126,11 +143,9 @@ function SavedMovies(props) {
 
     const handleToggleSlider = () => {
         setOnSlider(!onSlider);
-    };
+    }
 
     /////------------------------------------------------------------------///////
-
-
     return (
         <main className="saved-movies">
             <section className="search-form">

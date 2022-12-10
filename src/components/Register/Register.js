@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import './Register.css';
 import { useForm } from "react-hook-form";
@@ -6,9 +6,10 @@ import * as yup from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup";
 
 
-function Register({ onRegister, setRegState }) {
-    //---------Error answer in registration-------------
-    const [errMessage, setErrMessage] = useState('');
+function Register({ onRegister, message, setMessage, setBlockForm, blockForm }) {
+    React.useEffect(() => {
+        setMessage('');
+    }, [])
     const expression = /[a-zA-Zа-яА-Я0-9- ]+?$/;
     let validForm = yup.object().shape({
         email: yup.string()
@@ -24,15 +25,8 @@ function Register({ onRegister, setRegState }) {
     });
 
     const onSubmit = (registerData) => {
-        onRegister(registerData)
-            .then(() => {
-                console.log("registered");
-            })
-            .catch((err) => {
-                setErrMessage('Что-то пошло не так! Попробуйте ещё раз.');
-                setRegState(false);
-            })
-
+        setBlockForm(true);
+        onRegister(registerData);
     }
 
     const {
@@ -55,6 +49,7 @@ function Register({ onRegister, setRegState }) {
                     <input
                         {...register("name")}
                         className="register__input"
+                        disabled={blockForm}
                         id="register-name"
                         placeholder="Имя"
                     />
@@ -70,6 +65,7 @@ function Register({ onRegister, setRegState }) {
                     <input
                         {...register("email")}
                         className="register__input"
+                        disabled={blockForm}
                         id="register-email"
                         placeholder="Email"
                     />
@@ -86,6 +82,7 @@ function Register({ onRegister, setRegState }) {
                         {...register("password")}
                         type="password"
                         className="register__input"
+                        disabled={blockForm}
                         id="register-password"
                         placeholder="Пароль"
                     />
@@ -97,11 +94,11 @@ function Register({ onRegister, setRegState }) {
                     </span>
                 </div>
                 <span className="register__compare-message">
-                    {errMessage}
+                    {message}
                 </span>
                 <button
-                    className={`register__button ${!isValid && 'register__button_disabled'}`}
-                    disabled={!isValid}
+                    className={`register__button ${(!isValid || blockForm) && 'register__button_disabled'}`}
+                    disabled={!isValid || blockForm}
                     type="submit"
                     aria-label="Кнопка регистрации">
                     <p className="register__button_label">Зарегистрироваться</p>

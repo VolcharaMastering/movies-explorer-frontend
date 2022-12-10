@@ -1,14 +1,14 @@
 import './Login.css';
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import * as yup from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup";
 
-function Login({ onLogin }) {
-    //---------Error answer in login-------------
-    const [errMessage, setErrMessage] = useState('');
-
+function Login({ onLogin, message, setBlockForm, blockForm, setMessage }) {
+    React.useEffect(() => {
+        setMessage('');
+    }, [])
     let validForm = yup.object().shape({
         email: yup.string()
             .required("Поле E-mail не может быть пустым")
@@ -21,17 +21,10 @@ function Login({ onLogin }) {
 
     const onSubmit = (loginData) => {
         if (!loginData.email || !loginData.password) {
-            return setErrMessage('Email или пароль не верные!');
+            return setMessage('Email или пароль не верные!');
         }
-
-        onLogin(loginData)
-            .then(() => {
-                setErrMessage('OK!');
-            })
-            .catch((err) => {
-                setErrMessage('Что-то пошло не так! Попробуйте ещё раз.');
-            })
-
+        setBlockForm(true);
+        onLogin(loginData);
     }
 
     const {
@@ -55,6 +48,7 @@ function Login({ onLogin }) {
                     <input
                         {...register("email")}
                         className="login__input"
+                        disabled={blockForm}
                         id="login-email"
                         placeholder="Email"
                     />
@@ -71,6 +65,7 @@ function Login({ onLogin }) {
                         {...register("password")}
                         type="password"
                         className="login__input"
+                        disabled={blockForm}
                         id="login-password"
                         placeholder="Пароль"
                     />
@@ -82,20 +77,20 @@ function Login({ onLogin }) {
                     </span>
 
                     <span className="login__compare-message">
-                        {errMessage}
+                        {message}
                     </span>
                 </div>
 
                 <button
-                    className={`login__button ${!isValid && 'login__button_disabled'}`}
-                    disabled={!isValid}
+                    className={`login__button ${(!isValid || blockForm) && 'login__button_disabled'}`}
+                    disabled={!isValid || blockForm}
                     type="submit"
                     aria-label="Кнопка авторизации">
                     <p className="login__button_label">Войти</p>
                 </button>
                 <div className="login__label">
                     <p>Ещё не зарегистрированы?&nbsp;</p>
-                    <Link to="/signup" target="_blank" className="login__login-link">Регистрация</Link>
+                    <Link to="/signup" className="login__login-link">Регистрация</Link>
                 </div>
             </form>
         </section>

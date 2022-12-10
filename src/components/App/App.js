@@ -22,6 +22,9 @@ function App() {
     const [addMovies, setAddMovies] = useState(Number);
     const [moviesPerPage, setMoviesPerPage] = useState(Number);
     const [notFoundPage, setNotFoundPage] = useState(false);
+    const [loginFlag, setLoginFlag] = useState(false);
+    const [message, setMessage] = React.useState('');
+    const [blockForm, setBlockForm] = useState(false);
     const { pathname } = useLocation();
     const history = useHistory();
 
@@ -33,27 +36,30 @@ function App() {
 
 
     //----here is checking window resizing------
+    //-----making constants depending on window width-------- 
     const checkWindowSize = () => {
-        //-----making constants depending on window width-------- 
         switch (true) {
             case (window.innerWidth <= 649):
                 setChangedWidth('mobile');
-                setAddMovies(3)
+                setAddMovies(2)
                 setMoviesPerPage(5);
                 break;
             case (window.innerWidth <= 959):
                 setChangedWidth('tablet');
-                setAddMovies(4);
+                setAddMovies(2);
                 setMoviesPerPage(8);
                 break;
             default:
                 setChangedWidth('monitor');
-                setAddMovies(6);
+                setAddMovies(3);
                 setMoviesPerPage(12);
         }
     };
     useEffect(() => {
         window.addEventListener("resize", checkWindowSize);
+        return () => {
+            window.removeEventListener("resize", checkWindowSize);
+        }
     });
     useEffect(() => { }, [changedWidth]);
     useEffect(() => {
@@ -64,58 +70,71 @@ function App() {
     const makeMark = (val) => {
         setNotFoundPage(val);
     };
-
-
-
     //--------Auth functionality-------------
     function onLogin(data) {
         return mainApi.authorize(data)
             .then((res) => {
                 localStorage.setItem('jwt', res.token);
                 setLoggedIn(true);
-                history.push('/movies')
+                setMessage('Вы успешно авторизировались!');
             })
             .catch((err) => {
-                console.log(err);
+                setMessage('Что-то пошло не так! Попробуйте ещё раз.');
+            })
+            .finally(() => {
+                setBlockForm(false);
             });
     }
 
     function onRegister(data) {
         return mainApi.register(data)
             .then(() => {
+                setMessage('Регистрация прошла успешно!');
                 onLogin({ email: data.email, password: data.password });
             })
             .catch((err) => {
-                console.log(err);
+                setMessage('Что-то пошло не так! Попробуйте ещё раз.');
+            })
+            .finally(() => {
+                setBlockForm(false);
             });
     }
     function updateProfile(userData) {
         mainApi.setProfile(userData)
             .then((newUser) => {
-                setCurrentUser(newUser);
+                updateCurrentUser(newUser);
+                setMessage('Изменения в профиль успешно внесены');
             })
             .catch((err) => {
-                console.log(err);
+                setMessage('Что-то пошло не так! Попробуйте ещё раз.');
+            })
+            .finally(() => {
+                setBlockForm(false);
             });
     }
 
     function onLogout() {
         setLoggedIn(false);
-        localStorage.removeItem('jwt');
+        setLoginFlag(false);
+        updateCurrentUser({});
+        setMessage('');
+        localStorage.clear();
         history.push('/');
     }
-
+    const updateCurrentUser = (data) => {
+        setCurrentUser(data);
+    }
     const logging = () => {
         mainApi.getData()
             .then((usersInfo) => {
-                setCurrentUser(usersInfo);
+                updateCurrentUser(usersInfo);
             })
             .catch((err) => {
                 console.log(err);
             })
     }
-    //-----------Check token-------------
 
+    //-----------Check token-------------
     const tokenCheck = () => {
         const jwt = localStorage.getItem('jwt');
         if (!jwt) { return };
@@ -136,17 +155,16 @@ function App() {
         tokenCheck();
         if (loggedIn) {
             logging();
+            setLoginFlag(true);
         }
-        // if ((loggedIn && pathname==='/signin') || (loggedIn && pathname === '/signup')){
-        //     history.push('/movies');
-        // }
     }, [loggedIn]);
 
     useEffect(() => {
         if ((loggedIn && pathname === '/signin') || (loggedIn && pathname === '/signup')) {
             history.push('/movies');
+            history.go(0);
         }
-    }, [pathname, history, loggedIn]);
+    }, [pathname, history, loginFlag]);
     return (
         <div className='page'>
             <CurrentUserContext.Provider value={currentUser}>
@@ -164,11 +182,19 @@ function App() {
                         <Route path='/signin'>
                             <Login
                                 onLogin={onLogin}
+                                message={message}
+                                blockForm={blockForm}
+                                setBlockForm={setBlockForm}
+                                setMessage={setMessage}
                             />
                         </Route>
                         <Route path='/signup'>
                             <Register
                                 onRegister={onRegister}
+                                message={message}
+                                setMessage={setMessage}
+                                blockForm={blockForm}
+                                setBlockForm={setBlockForm}
                             />
                         </Route>
                         <Route exact path='/'>
@@ -182,6 +208,7 @@ function App() {
                             tokenCheck={tokenCheck}
                             changedWidth={changedWidth}
                             moviesPerPage={moviesPerPage}
+                            checkWindowSize={checkWindowSize}
                             setMoviesPerPage={setMoviesPerPage}
                             addMovies={addMovies}
                             component={Movies}
@@ -199,7 +226,10 @@ function App() {
                             exec path='/profile'
                             loggedIn={loggedIn}
                             updateProfile={updateProfile}
-                            updateUser={setCurrentUser}
+                            message={message}
+                            setMessage={setMessage}
+                            blockForm={blockForm}
+                            setBlockForm={setBlockForm}
                             onLogout={onLogout}
                             component={Profile}
                         />

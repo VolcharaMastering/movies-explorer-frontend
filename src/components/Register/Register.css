@@ -49,12 +49,6 @@
     margin: 0;
 }
 
-/* @media screen and (max-width: 649px) {
-    .register__input-label {
-        width: 260px;
-    }
-} */
-
 .register__input {
     font-size: 13px;
     width: 100%;
@@ -176,7 +170,7 @@
     left: 0;
     right: 0;
     text-align: center;
-    top: 150px;
+    bottom: 160px;
     position: absolute;
     border: 0;
     transition: 0.3s;

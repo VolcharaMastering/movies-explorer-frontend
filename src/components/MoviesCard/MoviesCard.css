@@ -45,30 +45,8 @@
 }
 
 .movies-card__image-link {
-    /* visibility: hidden;
-    opacity: 0; */
     z-index: 2;
 }
-
-/* 
-.movies-card__save-position {
-    position: absolute;
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.5s, visibility 0.5s;
-    top: 14px;
-    right: 14px;
-    z-index: 4;
-    margin: 0;
-} */
-/* .movies-card__saved-position {
-    position: absolute;
-    transition: opacity 0.5s;
-    top: 14px;
-    right: 14px;
-    z-index: 4;
-    margin: 0;
-} */
 
 .movies-card__save {
     position: absolute;

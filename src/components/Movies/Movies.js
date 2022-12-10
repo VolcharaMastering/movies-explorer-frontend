@@ -1,7 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-
 import React, { useEffect } from "react";
-
 import './Movies.css'
 import SearchForm from "./SearchForm/SearchForm.js";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
@@ -9,8 +6,6 @@ import moviesApi from "../../utils/MoviesApi.js";
 import mainApi from "../../utils/MainApi.js";
 import Preloader from "../Preloader/Preloader.js";
 import { CurrentUserContext } from '../../contexts/CurrentUserContext.js';
-
-
 
 function Movies(props) {
     const user = React.useContext(CurrentUserContext);
@@ -30,18 +25,20 @@ function Movies(props) {
     //=======check movies from localstorage or maindb=======
     const showedMovies = localStorage.getItem('showedMovies');
     const foundMovies = localStorage.getItem('foundMovies');
-    const searchState = JSON.parse(localStorage.getItem('searchState'));
+    const searchState = localStorage.getItem('searchState');
 
     useEffect(() => {
         getAllMoviesFromYaApi();
-        if (!foundMovies || foundMovies.length === 0) {
-            setError(false);
+        if (!searchState) {
             return;
         }
         else {
-            setMoviesToShow(JSON.parse(showedMovies));
-            setOnSlider(searchState.sliderState);
-            setFilteredMovies(JSON.parse(foundMovies));
+            if (request.length === 0) {
+                setMoviesToShow(JSON.parse(showedMovies));
+                setOnSlider(JSON.parse(searchState).sliderState);
+                setFilteredMovies(JSON.parse(foundMovies));
+                props.setMoviesPerPage(JSON.parse(showedMovies).length);
+            }
         };
     }, []);
 
@@ -93,7 +90,7 @@ function Movies(props) {
     useEffect(() => {
         const slicedMovies = filteredMovies.slice(start, end);
         setMoviesToShow(previosMovies => [...previosMovies, ...slicedMovies]);
-    }, [filteredMovies, start, end]);
+    }, [filteredMovies, props.moviesPerPage, start, end]);
 
     useEffect(() => {
         if (filteredMovies.length > moviesToShow.length) {
@@ -107,12 +104,10 @@ function Movies(props) {
     /////------------------------------------------------------------------///////
 
     ////------------find process------------/////////////
-
     const findInShort = () => {
         const filmsFound = movies.filter(film => (
             film.nameRU.toLowerCase().includes(request.toLowerCase()) ||
-            film.nameEN.toLowerCase().includes(request.toLowerCase()) ||
-            film.description.toLowerCase().includes(request.toLowerCase())) &&
+            film.nameEN.toLowerCase().includes(request.toLowerCase())) &&
             film.duration <= 40
         );
         if (filmsFound.length === 0 && request.length > 0) { setNotFound(true) } else { setNotFound(false) };
@@ -121,8 +116,7 @@ function Movies(props) {
     const findInAll = () => {
         const filmsFound = movies.filter(film =>
             film.nameRU.toLowerCase().includes(request.toLowerCase()) ||
-            film.nameEN.toLowerCase().includes(request.toLowerCase()) ||
-            film.description.toLowerCase().includes(request.toLowerCase())
+            film.nameEN.toLowerCase().includes(request.toLowerCase())
         );
         if (filmsFound.length === 0 && request.length > 0) { setNotFound(true) } else { setNotFound(false) };
         setFilteredMovies(filmsFound);
@@ -148,26 +142,32 @@ function Movies(props) {
         localStorage.setItem('showedMovies', JSON.stringify(moviesToShow));
         localStorage.setItem('savedMovies', JSON.stringify(savedMovies));
         localStorage.setItem('foundMovies', JSON.stringify(filteredMovies));
-        const searchState = { 'request': request, 'sliderState': onSlider };
-        localStorage.setItem('searchState', JSON.stringify(searchState));
+        if (request.length > 0) {
+            const searchState = { 'request': request, 'sliderState': onSlider };
+            localStorage.setItem('searchState', JSON.stringify(searchState));
+        }
     };
 
-    ////--------- reaction on buttons click-----------//////
     const handleShowMoreMovies = () => {
         setStart(props.moviesPerPage);
-        setEnd(props.moviesPerPage + props.addMovies)
+        setEnd(props.moviesPerPage + props.addMovies);
         props.setMoviesPerPage(props.moviesPerPage + props.addMovies);
+
     };
 
     const handleFindFilm = (request) => {
+        props.checkWindowSize();
         setRequest(request);
     };
 
     const handleToggleSlider = () => {
+        props.checkWindowSize();
         setOnSlider(!onSlider);
+        if (request.length === 0 && searchState) {
+            setRequest(JSON.parse(searchState).request);
+        }
     };
     /////------------------------------------------------------------------///////
-
 
     /////----------saving-liking movies-----------////////
     const handleSaveMovie = (savingMovie) => {
@@ -188,9 +188,7 @@ function Movies(props) {
         saveMovie(saving);
 
     };
-
     /////------------------------------------------------------------------///////
-
 
     return (
         <main className="movies">
@@ -212,6 +210,7 @@ function Movies(props) {
                             <h3 className="movie__info-label">Подождите немного и попробуйте ещё раз </h3>
                         </> :
                             <MoviesCardList
+                                loading={loading}
                                 moviesToRender={moviesToShow}
                                 moreMovies={handleShowMoreMovies}
                                 showMoreButton={showMoreButton}

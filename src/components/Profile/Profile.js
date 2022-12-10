@@ -1,18 +1,19 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import './Profile.css';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext.js';
 import { useForm } from "react-hook-form";
 import * as yup from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup";
 
 
-function Profile({ updateProfile, updateUser, onLogout }) {
+function Profile({ updateProfile, message, setMessage, setBlockForm, blockForm, onLogout }) {
     const user = React.useContext(CurrentUserContext);
-
-    const [errMessage, setErrMessage] = React.useState('');
+    React.useEffect(() => {
+        setMessage('');
+    }, [])
+    const userName = user.name;
+    const userEmail = user.email;
     const expression = /[a-zA-Zа-яА-Я0-9- ]+?$/;
-
     let validForm = yup.object().shape({
         email: yup.string()
             .required("Поле E-mail не может быть пустым")
@@ -21,16 +22,9 @@ function Profile({ updateProfile, updateUser, onLogout }) {
             .required("Поле Имя не может быть пустым")
             .matches(expression, "Имя содержит только латиницу, кириллицу, пробел или дефис"),
     });
-
     const onSubmit = (userData) => {
-        updateProfile(userData)
-            .then(() => {
-                updateUser(userData);
-            })
-            .catch((err) => {
-                setErrMessage('Что-то пошло не так! Попробуйте ещё раз.');
-            })
-
+        setBlockForm(true);
+        updateProfile(userData);
     }
     const {
         register,
@@ -39,7 +33,6 @@ function Profile({ updateProfile, updateUser, onLogout }) {
 
     } = useForm({
         mode: "onChange",
-        // defaultValues: { name: user.name, email: user.email },
         resolver: yupResolver(validForm)
     });
     return (
@@ -47,14 +40,15 @@ function Profile({ updateProfile, updateUser, onLogout }) {
             onSubmit={handleSubmit(onSubmit)}
         >
             <div className='profile__box'>
-                <h2 className='profile__greeting'>Привет, {user.name}!</h2>
+                <h2 className='profile__greeting'>Привет, {userName}!</h2>
                 <div className='profile__name'>
                     <p className='profile__label'>Имя</p>
                     <input
                         {...register("name")}
                         className="profile__auto-label"
+                        disabled={blockForm}
                         id="profile-name"
-                        defaultValue={user.name}
+                        defaultValue={userName}
                     />
                     <span className={
                         `profile__valid-error 
@@ -68,9 +62,10 @@ function Profile({ updateProfile, updateUser, onLogout }) {
                     <input
                         {...register("email")}
                         className="profile__auto-label"
+                        disabled={blockForm}
                         type="text"
                         id="profile-email"
-                        defaultValue={user.email}
+                        defaultValue={userEmail}
                     />
                     <span className={
                         `profile__valid-error 
@@ -79,12 +74,12 @@ function Profile({ updateProfile, updateUser, onLogout }) {
                         {errors?.email && errors?.email?.message}
                     </span>
                     <span className="profile__compare-message">
-                        {errMessage}
+                        {message}
                     </span>
                 </div>
                 <button
-                    className={`profile__change ${!isValid && 'profile__change_disabled'}`}
-                    disabled={!isValid}
+                    className={`profile__change ${(!isValid || blockForm) && 'profile__change_disabled'}`}
+                    disabled={!isValid || blockForm}
                     type="submit"
                     aria-label='change user info'
                 >

@@ -49,12 +49,6 @@
     margin: 0;
 }
 
-/* @media screen and (max-width: 649px) {
-    .login__input-label {
-        width: 260px;
-    }
-} */
-
 .login__input {
     font-size: 13px;
     width: 100%;

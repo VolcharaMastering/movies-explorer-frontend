@@ -45,8 +45,6 @@
 }
 
 .movies-card__image-link {
-    /* visibility: hidden;
-    opacity: 0; */
     z-index: 1;
 }
 

@@ -1,6 +1,7 @@
 ///------For API request------
 const MOVIE_URL = 'https://api.nomoreparties.co/beatfilm-movies/'
-let token = localStorage.getItem('jwt');
+
+const token = localStorage.getItem('jwt');
 
 const URL_CONFIG = {
   'url': 'https://api.movie-diplom-vmstr.nomoredomains.icu/',

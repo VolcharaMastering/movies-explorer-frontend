@@ -5,9 +5,8 @@ import MoviesCard from "../MoviesCard/MoviesCard.js";
 function MoviesCardList(props) {
     const [renderingMovie, setRenderingMovie] = React.useState([]);
     useEffect(() => {
-
         props.getSavedMovies();
-    }, [])
+    }, [props.loading])
 
     useEffect(() => {
         props.moviesToRender.forEach(film => {
@@ -18,7 +17,7 @@ function MoviesCardList(props) {
             }
         });
         setRenderingMovie(props.moviesToRender);
-    }, [props.savedMovies])
+    }, [props.savedMovies, props.moviesToRender])
     return (
         <>
             <div className='movies-list__box'>

@@ -72,9 +72,10 @@
 
 @media screen and (max-width: 680px) {
     .about-project__text_cell {
-  grid-row: 2;
+        grid-row: 2;
     }
 }
+
 .about-project__title {
     font-size: 19px;
     font-weight: 400;
@@ -84,14 +85,14 @@
 
 @media screen and (max-width: 680px) {
     .about-project__title_cell {
-  grid-row: 3;
-  margin-top: 42px;
+        grid-row: 3;
+        margin-top: 42px;
     }
 }
 
 @media screen and (max-width: 680px) {
     .about-project__title {
-  font-size: 17px;
+        font-size: 17px;
     }
 }
 
@@ -129,7 +130,8 @@
 
 @media screen and (max-width: 450px) {
     .about-project__term {
-        grid-template-rows: 35px 19px;;
+        grid-template-rows: 35px 19px;
+        ;
         margin-top: 58px;
     }
 }
