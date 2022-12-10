@@ -1,43 +1,43 @@
 .main {
-    width: 100%;
-    font-size: 14px;
-    font-weight: 400;
+  width: 100%;
+  font-size: 14px;
+  font-weight: 400;
 }
 
 .main__title {
-    font-size: 47px;
-    font-weight: 400;
+  font-size: 47px;
+  font-weight: 400;
 }
 
 @media screen and (max-width: 1000px) {
-    .main__title {
-        font-size: 42px;
-    }
+  .main__title {
+    font-size: 42px;
+  }
 }
 
 @media screen and (max-width: 800px) {
-    .main__title {
-        font-size: 38px;
-    }
+  .main__title {
+    font-size: 38px;
+  }
 }
 
 @media screen and (max-width: 650px) {
-    .main__title {
-        font-size: 33px;
-    }
+  .main__title {
+    font-size: 33px;
+  }
 }
 
 @media screen and (max-width: 400px) {
-    .main__title {
-        font-size: 27px;
-    }
+  .main__title {
+    font-size: 27px;
+  }
 }
 
 .main__subtitle {
-    font-size: 21px;
-    font-weight: 400;
-    width: 100%;
-    line-height: 68px;
-    border-bottom: 1px solid #DADADA;
-    margin: 92px 0 0;
+  font-size: 21px;
+  font-weight: 400;
+  width: 100%;
+  line-height: 68px;
+  border-bottom: 1px solid #dadada;
+  margin: 92px 0 0;
 }

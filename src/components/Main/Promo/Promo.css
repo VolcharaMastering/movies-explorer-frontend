@@ -1,142 +1,142 @@
 .promo {
-    max-width: 1200px;
-    height: 493px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: #272727;
-    border-radius: 10px;
-    font-size: 12px;
-    font-weight: 500;
-    margin: 20px 40px 0;
+  max-width: 1200px;
+  height: 493px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #272727;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 500;
+  margin: 20px 40px 0;
 }
 
 @media screen and (max-width: 1279px) {
-    .promo {
-        height: calc(100vw / 2 - 147px + (1280px - 100vw) * 1.2);
-    }
+  .promo {
+    height: calc(100vw / 2 - 147px + (1280px - 100vw) * 1.2);
+  }
 }
 
 @media screen and (max-width: 1000px) {
-    .promo {
-        margin: 20px 30px 0;
-    }
+  .promo {
+    margin: 20px 30px 0;
+  }
 }
 
 @media screen and (max-width: 800px) {
-    .promo {
-        height: 834px;
-        margin: 20px 20px 0;
-    }
+  .promo {
+    height: 834px;
+    margin: 20px 20px 0;
+  }
 }
 
 @media screen and (max-width: 750px) {
-    .promo {
-        height: 130vw;
-        margin: 20px 17px 0;
-    }
+  .promo {
+    height: 130vw;
+    margin: 20px 17px 0;
+  }
 }
 
 @media screen and (max-width: 500px) {
-    .promo {
-        height: 674px;
-        margin: 15px 14px 0;
-    }
+  .promo {
+    height: 674px;
+    margin: 15px 14px 0;
+  }
 }
 
 @media screen and (max-width: 500px) {
-    .promo {
-        height: 584px;
-    }
+  .promo {
+    height: 584px;
+  }
 }
 
 .promo-main__title_margin {
-    line-height: 1.26;
-    text-align: center;
-    max-width: 730px;
-    margin: 160px 12% 0;
+  line-height: 1.26;
+  text-align: center;
+  max-width: 730px;
+  margin: 160px 12% 0;
 }
 
 @media screen and (max-width: 1000px) {
-    .promo-main__title_margin {
-        margin-top: 220px;
-    }
+  .promo-main__title_margin {
+    margin-top: 220px;
+  }
 }
 
 @media screen and (max-width: 800px) {
-    .promo-main__title_margin {
-        line-height: 52px;
-        margin-top: 350px;
-    }
+  .promo-main__title_margin {
+    line-height: 52px;
+    margin-top: 350px;
+  }
 }
 
 @media screen and (max-width: 780px) {
-    .promo-main__title_margin {
-        margin: calc(350px - 15vw) 10% 0;
-    }
+  .promo-main__title_margin {
+    margin: calc(350px - 15vw) 10% 0;
+  }
 }
 
 @media screen and (max-width: 600px) {
-    .promo-main__title_margin {
-        line-height: 40px;
-        margin: calc(350px - 35vw) 3% 0;
-    }
+  .promo-main__title_margin {
+    line-height: 40px;
+    margin: calc(350px - 35vw) 3% 0;
+  }
 }
 
 @media screen and (max-width: 400px) {
-    .promo-main__title_margin {
-        line-height: 37px;
-        margin: 220px 0 0;
-    }
+  .promo-main__title_margin {
+    line-height: 37px;
+    margin: 220px 0 0;
+  }
 }
 
 .promo__buttons-area {
-    display: flex;
-    width: 308px;
-    height: 36px;
-    list-style: none;
-    justify-content: space-between;
-    margin: auto 0 30px;
-    padding: 0;
+  display: flex;
+  width: 308px;
+  height: 36px;
+  list-style: none;
+  justify-content: space-between;
+  margin: auto 0 30px;
+  padding: 0;
 }
 
 @media screen and (max-width: 800px) {
-    .promo__buttons-area {
-        margin: auto 0 30px;
-    }
+  .promo__buttons-area {
+    margin: auto 0 30px;
+  }
 }
 
 @media screen and (max-width: 450px) {
-    .promo__buttons-area {
-        width: 260px;
-        font-size: 10px;
-        margin: auto 0 6px;
-    }
+  .promo__buttons-area {
+    width: 260px;
+    font-size: 10px;
+    margin: auto 0 6px;
+  }
 }
 
 .promo__button {
-    width: 96px;
-    height: 36px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
-    background-color: #303030;
-    cursor: pointer;
-    transition: opacity 0.5s linear;
-    margin: 0 0 10px 0;
+  width: 96px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  background-color: #303030;
+  cursor: pointer;
+  transition: opacity 0.5s linear;
+  margin: 0 0 10px 0;
 }
 
 .promo__button:hover {
-    opacity: 60%;
-    cursor: pointer;
+  opacity: 60%;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 450px) {
-    .promo__button {
-        width: 82px;
-        height: 26px;
-    }
+  .promo__button {
+    width: 82px;
+    height: 26px;
+  }
 }

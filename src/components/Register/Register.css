@@ -1,177 +1,177 @@
 .register {
-    max-width: 400px;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    margin: 0;
+  max-width: 400px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 0;
 }
 
 .register__form {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    margin: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
 }
 
 .register__greeting {
-    align-self: flex-start;
-    font-size: 24px;
-    font-weight: 500;
-    margin: 40px 0 20px;
+  align-self: flex-start;
+  font-size: 24px;
+  font-weight: 500;
+  margin: 40px 0 20px;
 }
 
 @media screen and (max-width: 649px) {
-    .register__greeting {
-        align-self: center;
-        margin: 55px 0 60px;
-    }
+  .register__greeting {
+    align-self: center;
+    margin: 55px 0 60px;
+  }
 }
 
 .register__input-box {
-    position: relative;
-    width: 396px;
-    height: 68px;
-    font-weight: 400;
-    margin: 20px 0 0;
+  position: relative;
+  width: 396px;
+  height: 68px;
+  font-weight: 400;
+  margin: 20px 0 0;
 }
 
 @media screen and (max-width: 649px) {
-    .register__input-box {
-        width: 260px;
-    }
+  .register__input-box {
+    width: 260px;
+  }
 }
 
 .register__input-label {
-    font-size: 10px;
-    color: #8B8B8B;
-    margin: 0;
+  font-size: 10px;
+  color: #8b8b8b;
+  margin: 0;
 }
 
 .register__input {
-    font-size: 13px;
-    width: 100%;
-    color: white;
-    height: 46px;
-    border: none;
-    background-color: #2F2F2F;
-    border-radius: 8px;
-    box-sizing: border-box;
-    margin: 10px 0 0;
-    padding-left: 15px;
+  font-size: 13px;
+  width: 100%;
+  color: white;
+  height: 46px;
+  border: none;
+  background-color: #2f2f2f;
+  border-radius: 8px;
+  box-sizing: border-box;
+  margin: 10px 0 0;
+  padding-left: 15px;
 }
 
 #register-password {
-    color: #EE3465;
+  color: #ee3465;
 }
 
 .register__input:hover {
-    border: 1px solid #5A5A5A;
+  border: 1px solid #5a5a5a;
 }
 
 .register__input-error {
-    color: #EE3465;
-    align-self: flex-start;
-    font-size: 10px;
-    margin: 10px 0 0;
+  color: #ee3465;
+  align-self: flex-start;
+  font-size: 10px;
+  margin: 10px 0 0;
 }
 
 .register__button {
-    width: 396px;
-    height: 45px;
-    background-color: #4285F4;
-    color: white;
-    font-size: 14px;
-    font-weight: 500;
-    border-radius: 3px;
-    border: none;
-    transition: opacity 0.5s linear;
-    margin: 69px 0 0;
+  width: 396px;
+  height: 45px;
+  background-color: #4285f4;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 3px;
+  border: none;
+  transition: opacity 0.5s linear;
+  margin: 69px 0 0;
 }
 
 @media screen and (max-width: 649px) {
-    .register__button {
-        width: 260px;
-        height: 46px;
-        font-size: 12px;
-        margin-top: 162px;
-    }
+  .register__button {
+    width: 260px;
+    height: 46px;
+    font-size: 12px;
+    margin-top: 162px;
+  }
 }
 
 .register__button_disabled {
-    pointer-events: none;
-    border: 1px solid rgba(230, 95, 95, 0.2);
-    background-color: rgba(230, 95, 95, 0);
-    color: rgba(230, 95, 95, 20%);
+  pointer-events: none;
+  border: 1px solid rgba(230, 95, 95, 0.2);
+  background-color: rgba(230, 95, 95, 0);
+  color: rgba(230, 95, 95, 20%);
 }
 
 .register__button:hover {
-    cursor: pointer;
-    opacity: 80%;
+  cursor: pointer;
+  opacity: 80%;
 }
 
 .register__button_label {
-    text-align: center;
+  text-align: center;
 }
 
 .register__label {
-    display: flex;
-    font-size: 14px;
-    font-weight: 400;
-    color: #8B8B8B;
-    align-items: center;
-    margin: 0;
+  display: flex;
+  font-size: 14px;
+  font-weight: 400;
+  color: #8b8b8b;
+  align-items: center;
+  margin: 0;
 }
 
 @media screen and (max-width: 649px) {
-    .register__label {
-        font-size: 12px;
-        margin-top: 7px;
-    }
+  .register__label {
+    font-size: 12px;
+    margin-top: 7px;
+  }
 }
 
 .register__register-link {
-    color: #4285F4;
-    text-decoration: none;
-    cursor: pointer;
-    transition: opacity 0.5s linear;
-    margin: 0;
+  color: #4285f4;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.5s linear;
+  margin: 0;
 }
 
 .register__register-link:hover {
-    cursor: pointer;
-    opacity: 80%;
-    margin-left: 3px;
+  cursor: pointer;
+  opacity: 80%;
+  margin-left: 3px;
 }
 
 .register__valid-error {
-    font-size: 10px;
-    font-weight: 400;
-    color: rgb(212, 167, 19);
-    opacity: 0;
-    left: 0;
-    right: 0;
-    text-align: center;
-    bottom: -15px;
-    position: absolute;
-    border: 0;
-    transition: 0.3s;
+  font-size: 10px;
+  font-weight: 400;
+  color: rgb(212, 167, 19);
+  opacity: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  bottom: -15px;
+  position: absolute;
+  border: 0;
+  transition: 0.3s;
 }
 
 .register__valid-error_active {
-    opacity: 1;
+  opacity: 1;
 }
 
 .register__compare-message {
-    font-size: 12px;
-    font-weight: 400;
-    color: rgb(197, 166, 166);
-    left: 0;
-    right: 0;
-    text-align: center;
-    bottom: 160px;
-    position: absolute;
-    border: 0;
-    transition: 0.3s;
+  font-size: 12px;
+  font-weight: 400;
+  color: rgb(197, 166, 166);
+  left: 0;
+  right: 0;
+  text-align: center;
+  bottom: 160px;
+  position: absolute;
+  border: 0;
+  transition: 0.3s;
 }

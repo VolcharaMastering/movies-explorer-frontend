@@ -28,14 +28,14 @@
   cursor: pointer;
   width: 36px;
   height: 20px;
-  background: #EBEBEB;
+  background: #ebebeb;
   border-radius: 10px;
   position: relative;
-  transition: background-color .2s;
+  transition: background-color 0.2s;
 }
 
 .search-slider__label .search-slider__button {
-  content: '';
+  content: "";
   position: absolute;
   top: 2px;
   left: 1px;
@@ -47,7 +47,9 @@
   box-shadow: 0 0 2px 0 rgba(10, 10, 10, 0.29);
 }
 
-.search-slider__checkbox:checked+.search-slider__label .search-slider__button {
+.search-slider__checkbox:checked
+  + .search-slider__label
+  .search-slider__button {
   left: calc(100% - 2px);
   transform: translateX(-100%);
 }

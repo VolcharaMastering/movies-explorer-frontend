@@ -1,14 +1,14 @@
 .movies {
-    width: 100%;
-    font-size: 14px;
-    font-weight: 400;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto;
+  width: 100%;
+  font-size: 14px;
+  font-weight: 400;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
 }
 
 .movie__info-label {
-    text-align: center;
+  text-align: center;
 }
