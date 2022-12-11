@@ -13,12 +13,16 @@ function Profile({
   blockForm,
   onLogout,
 }) {
+  /////-------service consts and effects------------/////
   const user = React.useContext(CurrentUserContext);
+  const [disableButton, setDisableButton] = React.useState(true);
+
   React.useEffect(() => {
     setMessage("");
   }, []);
-  const userName = user.name;
-  const userEmail = user.email;
+  /////----------------------------------------------/////
+
+  /////-------------validation consts----------/////
   const expression = /[a-zA-Zа-яА-Я0-9- ]+?$/;
   let validForm = yup.object().shape({
     email: yup
@@ -33,22 +37,50 @@ function Profile({
         "Имя содержит только латиницу, кириллицу, пробел или дефис"
       ),
   });
-  const onSubmit = (userData) => {
-    setBlockForm(true);
-    updateProfile(userData);
-  };
+  /////----------------------------------------------/////
+
+  /////------------validation with ract-hook-form(useForm)---------------/////
   const {
     register,
     formState: { errors, isValid },
     handleSubmit,
+    watch,
   } = useForm({
     mode: "onChange",
+    defaultValues: {
+      name: user.name,
+      email: user.email,
+    },
     resolver: yupResolver(validForm),
   });
+  /////----------------------------------------------/////
+
+  /////------------function to disable button when no-change------------/////
+  useEffect(() => {
+    const subscription = watch((value) => {
+      if (user.name === value.name && user.email === value.email) {
+        setMessage("Необходимо внести изменения");
+        setDisableButton(true);
+        return;
+      } else if (disableButton) {
+        setDisableButton(false);
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [watch]);
+  /////----------------------------------------------/////
+
+  /////----------reaction on submit---------------/////
+  const onSubmit = (userData) => {
+    setBlockForm(true);
+    updateProfile(userData);
+  };
+
+  /////----------------------------------------------/////
   return (
     <form className="profile__form" onSubmit={handleSubmit(onSubmit)}>
       <div className="profile__box">
-        <h2 className="profile__greeting">Привет, {userName}!</h2>
+        <h2 className="profile__greeting">Привет, {user.name}!</h2>
         <div className="profile__name">
           <p className="profile__label">Имя</p>
           <input
@@ -56,7 +88,6 @@ function Profile({
             className="profile__auto-label"
             disabled={blockForm}
             id="profile-name"
-            defaultValue={userName}
           />
           <span
             className={`profile__valid-error 
@@ -73,7 +104,6 @@ function Profile({
             disabled={blockForm}
             type="text"
             id="profile-email"
-            defaultValue={userEmail}
           />
           <span
             className={`profile__valid-error 
@@ -85,9 +115,10 @@ function Profile({
         </div>
         <button
           className={`profile__change ${
-            (!isValid || blockForm) && "profile__change_disabled"
+            (!isValid || blockForm || disableButton) &&
+            "profile__change_disabled"
           }`}
-          disabled={!isValid || blockForm}
+          disabled={!isValid || blockForm || disableButton}
           type="submit"
           aria-label="change user info"
         >

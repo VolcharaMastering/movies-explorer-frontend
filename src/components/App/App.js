@@ -148,6 +148,7 @@ function App() {
       .then((res) => {
         setLoggedIn(true);
         history.push(pathname);
+        setCurrentUser(res);
       })
       .catch((err) => {
         console.log(err);
