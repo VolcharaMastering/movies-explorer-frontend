@@ -1,10 +1,10 @@
-.saved-movies{
-    width: 100%;
-    font-size: 14px;
-    font-weight: 400;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto;
+.saved-movies {
+  width: 100%;
+  font-size: 14px;
+  font-weight: 400;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
 }

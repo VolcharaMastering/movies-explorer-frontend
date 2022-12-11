@@ -1,126 +1,194 @@
-
 import React, { useEffect } from "react";
-
-import './SavedMovies.css'
-import SearchForm from "../SearchForm/SearchForm.js";
-// import Preloader from "../Preloader/Preloader.js";
-import MoviesCardList from "../MoviesCardList/MoviesCardList";
-import movies from "../Movies/moviesList.json";
-
+import "./SavedMovies.css";
+import SearchForm from "./SearchForm/SearchForm.js";
+import MoviesCardList from "./MoviesCardList/MoviesCardList.js";
+import mainApi from "../../utils/MainApi.js";
+import Preloader from "../Preloader/Preloader.js";
 
 function SavedMovies(props) {
-    const [moviesToShow, setMoviesToShow] = React.useState([]);
-    const [filteredMovies, setFilteredMovies] = React.useState([]);
-    // const [savedMovies, setSavedMovies] = React.useState([]);
-    const [searchMovie, setSearchMovie] = React.useState('');
-    const [onSlider, setOnSlider] = React.useState(false);
-    let handleFlag = false;
+  const [movies, setMovies] = React.useState([]);
+  const [moviesToShow, setMoviesToShow] = React.useState([]);
+  const [request, setRequest] = React.useState([]);
+  const [filteredMovies, setFilteredMovies] = React.useState([]);
+  const [onSlider, setOnSlider] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+  const [notFound, setNotFound] = React.useState(false);
+  const [error, setError] = React.useState(false);
+  const [showSaved, setShowSaved] = React.useState(false);
 
-    //=======creating an array of movies=======
+  //=======check movies from localstorage or maindb=======
+  const foundMovies = localStorage.getItem("foundSavedMovies");
+  const searchState = localStorage.getItem("savedSearchState");
+  useEffect(() => {
+    if (!searchState) {
+      getSavedMovies();
+    } else {
+      setShowSaved(true);
+      setRequest(JSON.parse(searchState).savedRequest);
+      setOnSlider(JSON.parse(searchState).sliderState);
+    }
+  }, []);
+  /////------------------------------------------------------------------///////
 
-    function loopWithSlice(start, end) {
-        const slicedMovies = (handleFlag ? filteredMovies.slice(start, end) : savedMovies.slice(start, end));
-        setMoviesToShow(previosMovies => [...previosMovies, ...slicedMovies]);
-        updateFlag();
-    };
-    // const getSavedMovies=()=>{
-    // setSavedMovies(movies.filter(film =>film.saved === true));
-    // };
-    // getSavedMovies();
-    const savedMovies=movies.filter(film =>film.saved === true);
-    // useEffect(()=>{
-    //     getSavedMovies();
-    // },[movies]);
-    
-
-    const updateFlag = () => {
-        handleFlag = false;
-    }
-    const findInAll = () => {
-        const filmsFound = savedMovies.filter(
-            film =>film.nameRU.toLowerCase().includes(searchMovie.toLowerCase()) ||
-                film.nameEN.toLowerCase().includes(searchMovie.toLowerCase()) ||
-                film.description.toLowerCase().includes(searchMovie.toLowerCase())
-        );
-        return filmsFound;
-    }
-    const findInShort = () => {
-        const filmsFound = savedMovies.filter(film =>
-            (film.nameRU.toLowerCase().includes(searchMovie.toLowerCase()) ||
-                film.nameEN.toLowerCase().includes(searchMovie.toLowerCase()) ||
-                film.description.toLowerCase().includes(searchMovie.toLowerCase())) &&
-            film.duration <= 120
-        );
-        return filmsFound;
-    }
-    const getShort = () => {
-        setFilteredMovies(savedMovies.filter( film =>film.duration <= 120)
-        );
-    }
-
-    useEffect(() => {
-        setMoviesToShow([]);
-        switch (true) {
-            case (onSlider && searchMovie.length > 0):
-                handleFlag = true;
-                setFilteredMovies(findInShort());
-                break;
-            case (onSlider && searchMovie.length === 0):
-                handleFlag = true;
-                getShort();
-                break;
-            case (!onSlider && searchMovie.length > 0):
-                handleFlag = true;
-                setFilteredMovies(findInAll());
-                break;
-            default:
-                console.log('DEFAULT');
+  ///---------database cals---------------////////
+  const getSavedMovies = () => {
+    mainApi
+      .getMovies()
+      .then((data) => {
+        setError(false);
+        setMovies(data);
+      })
+      .catch((err) => {
+        setError(true);
+      });
+  };
+  const delMovie = (id) => {
+    mainApi
+      .delMovie(id)
+      .then(() => {
+        if (filteredMovies.length === 0) {
+          getSavedMovies();
+        } else {
+          setFilteredMovies(filteredMovies.filter((film) => film._id !== id));
+          setMoviesToShow(filteredMovies.filter((film) => film._id !== id));
         }
-        loopWithSlice(0, props.moviesPerPage);
-    }, [props.changedWidth, onSlider, searchMovie]);
+      })
+      .catch((err) => {
+        setError(true);
+      });
+  };
+  /////------------------------------------------------------------------///////
 
-    // const savedMovie = (gotMovie) => {
-    //     const film = movies.find(movie => movie._id = gotMovie._id)
-    //     film.saved = !film.saved;
-    // }
-
-    const handleShowMoreMovies = () => {
-        loopWithSlice(props.moviesPerPage, props.moviesPerPage + props.addMovies);
-        props.setMoviesPerPage(props.moviesPerPage + props.addMovies);
-    };
-    //----------------
-    //=========================
-    const handleFindFilm = (e) => {
-        e.preventDefault();
-        getSearchString(e);
-    };
-    const handleToggleSlider = () => {
-        setOnSlider(!onSlider);
-    };
-    const getSearchString = (e) => {
-        setSearchMovie(e.target.value);
+  ///-----------render movies -----------////
+  useEffect(() => {
+    if (filteredMovies.length === 0) {
+      setMoviesToShow(movies);
+    } else {
+      setMoviesToShow(filteredMovies);
+      createStorage();
     }
-    return (
-        <main className="saved-movies">
-            <section className="search-form">
-                <SearchForm
-                    searchMovie={getSearchString}
-                    handleFindFilm={handleFindFilm}
-                    onSlider={onSlider}
-                    toggleSlider={handleToggleSlider}
-                />
-            </section>
-            {/* <section className="preloader">
-                <Preloader />
-            </section> */}
-            <section className="movies-list">
-                <MoviesCardList
-                    moviesToRender={moviesToShow}
-                    moreMovies={handleShowMoreMovies}
-                />
-            </section>
-        </main >
+    setLoading(false);
+  }, [filteredMovies, movies]);
+  /////------------------------------------------------------------------///////
+
+  ////------------find process------------/////////////
+  const findInShort = () => {
+    const filmsFound = movies.filter(
+      (film) =>
+        (film.nameRU.toLowerCase().includes(request.toLowerCase()) ||
+          film.nameEN.toLowerCase().includes(request.toLowerCase()) ||
+          film.description.toLowerCase().includes(request.toLowerCase())) &&
+        film.duration <= 40
     );
+    if (filmsFound.length === 0 && request.length > 0) {
+      setNotFound(true);
+    } else {
+      setNotFound(false);
+    }
+    setFilteredMovies(filmsFound);
+  };
+
+  const findInAll = () => {
+    const filmsFound = movies.filter(
+      (film) =>
+        film.nameRU.toLowerCase().includes(request.toLowerCase()) ||
+        film.nameEN.toLowerCase().includes(request.toLowerCase()) ||
+        film.description.toLowerCase().includes(request.toLowerCase())
+    );
+    if (filmsFound.length === 0 && request.length > 0) {
+      setNotFound(true);
+    } else {
+      setNotFound(false);
+    }
+    setFilteredMovies(filmsFound);
+  };
+  const findOnlyShort = () => {
+    const filmsFound = movies.filter((film) => film.duration <= 40);
+    if (filmsFound.length === 0) {
+      setNotFound(true);
+    } else {
+      setNotFound(false);
+    }
+    setFilteredMovies(filmsFound);
+  };
+
+  useEffect(() => {
+    if (request.length === 0 && !showSaved && onSlider) {
+      findOnlyShort();
+      return;
+    }
+    if (request.length === 0 && !showSaved && !onSlider) {
+      setMoviesToShow(movies);
+      return;
+    }
+    if (showSaved) {
+      setLoading(true);
+      setShowSaved(false);
+      setFilteredMovies(JSON.parse(foundMovies));
+      return;
+    }
+    setLoading(true);
+    getSavedMovies();
+    if (onSlider) {
+      setMoviesToShow([]);
+      findInShort();
+    } else {
+      setMoviesToShow([]);
+      findInAll();
+    }
+  }, [request, onSlider]);
+  /////------------------------------------------------------------------///////
+  const createStorage = () => {
+    localStorage.setItem("foundSavedMovies", JSON.stringify(filteredMovies));
+    if (request.length > 0) {
+      const searchState = { savedRequest: request, sliderState: onSlider };
+      localStorage.setItem("savedSearchState", JSON.stringify(searchState));
+    }
+  };
+
+  ////--------- reaction on buttons click-----------//////
+  const handleFindFilm = (request) => {
+    setRequest(request);
+  };
+
+  const handleToggleSlider = () => {
+    setOnSlider(!onSlider);
+  };
+
+  /////------------------------------------------------------------------///////
+  return (
+    <main className="saved-movies">
+      <section className="search-form">
+        <SearchForm
+          handleFindFilm={handleFindFilm}
+          onSlider={onSlider}
+          toggleSlider={handleToggleSlider}
+        />
+      </section>
+
+      <section className="movies-list">
+        {loading ? (
+          <Preloader />
+        ) : notFound ? (
+          <h2 className="movie__info-label">Ничего не найдено</h2>
+        ) : error ? (
+          <>
+            <h2 className="movie__info-label">
+              Во время запроса произошла ошибка.
+            </h2>
+            <h3 className="movie__info-label">
+              Возможно, проблема с соединением или сервер недоступен.
+            </h3>
+            <h3 className="movie__info-label">
+              Подождите немного и попробуйте ещё раз{" "}
+            </h3>
+          </>
+        ) : (
+          <MoviesCardList moviesToRender={moviesToShow} delMovie={delMovie} />
+        )}
+      </section>
+    </main>
+  );
 }
 
 export default SavedMovies;
