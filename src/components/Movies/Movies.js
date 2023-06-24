@@ -10,6 +10,7 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
 function Movies(props) {
   const user = React.useContext(CurrentUserContext);
   const [movies, setMovies] = React.useState([]);
+  const [firstVisit, setFirstVisit] = React.useState(false);
   const [start, setStart] = React.useState(0);
   const [end, setEnd] = React.useState(0);
   const [request, setRequest] = React.useState([]);
@@ -30,9 +31,11 @@ function Movies(props) {
   useEffect(() => {
     getAllMoviesFromYaApi();
     if (!searchState) {
+      setFirstVisit(true);
       return;
     } else {
       if (request.length === 0) {
+        setFirstVisit(false);
         setMoviesToShow(JSON.parse(showedMovies));
         setOnSlider(JSON.parse(searchState).sliderState);
         setFilteredMovies(JSON.parse(foundMovies));
@@ -45,6 +48,7 @@ function Movies(props) {
 
   ///---------database cals---------------////////
   const getAllMoviesFromYaApi = () => {
+    setLoading(true);
     moviesApi
       .getMovies()
       .then((data) => {
@@ -90,6 +94,13 @@ function Movies(props) {
   /////------------------------------------------------------------------///////
 
   ///-----------render movies -----------////
+  useEffect(() => {
+    if (firstVisit) {
+      setFilteredMovies(movies);
+      setEnd(props.moviesPerPage);
+    }
+  }, [firstVisit, movies]);
+
   useEffect(() => {
     const slicedMovies = filteredMovies.slice(start, end);
     setMoviesToShow((previosMovies) => [...previosMovies, ...slicedMovies]);
