@@ -4,7 +4,7 @@ const MOVIE_URL = "https://api.nomoreparties.co/beatfilm-movies/";
 const token = localStorage.getItem("jwt");
 
 const URL_CONFIG = {
-  url: "https://api.movie-diplom-vmstr.nomoredomains.icu/",
+  url: "https://api.vmstr-proj.site/",
   headers: {
     Accept: "application/json",
     Authorization: `Bearer ${token}`,
